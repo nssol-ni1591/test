@@ -31,7 +31,8 @@ class Highlight
 				SetForegroundWindow(p.MainWindowHandle);
 //				Console.WriteLine("[" + DateTime.Now + "] Info: Foreground Window (title=[" + title + "] time=[" + time + "])");
 //				Console.WriteLine($"[{DateTime.Now}] Info: Foreground Window (title=[{title}] time=[{time}])");
-				string s = string.Format("[{0}] Info: Foreground Window (title=[{1}] time=[{2}])", DateTime.Now, title, time);
+//				string s = string.Format("[{0}] Info: Foreground Window (title=[{1}] time=[{2}])", DateTime.Now, title, time);
+				string s = string.Format("[{0}] Info: Foreground Window (title=[{1}] time=[{2}])", DateTime.Now, t, time);
 				Console.WriteLine(s);
 				Thread.Sleep(time * 1000);
 				return;
@@ -73,8 +74,8 @@ class Highlight
 		Random r = new Random();
 		while (true) {
 //		  Task.Delay(60 * 1000);
-//			SetActiveWindow("次期RINDA");
-			SetActiveWindow("RINDA Mattermost");
+//			SetActiveWindow("RINDA Mattermost");
+			SetActiveWindow(target);
 //			Thread.Sleep(5 * 1000);
 //			SetActiveWindow("コマンド プロンプト - Highlight");
 			SetActiveWindow(" " + cmd, r.Next(45, 90));

@@ -3,12 +3,13 @@
 use warnings;
 use strict;
 
-#binmode STDOUT ":crlf";
+binmode STDOUT, ":crlf";
 
 my %TAGS = (
 	"jndi-name"						=> "name",
 	"url"							=> "url",
 	"driver-name"					=> "driverClassName",
+	"password"						=> "password",				# 暗号化
 
 	"initial-capacity"				=> "initialSize",	# 1		# initialSize: 10
 	"min-capacity"					=> "minIdle",		# 1		# minIdle: maxActive
@@ -47,23 +48,9 @@ my %TAGS = (
 
 my @COLUMNS = (
 	"name",
-	"auth",
-	"type",
-	"username",
-	"password",
-	"driverClassName",
-	"url",
-
-	"initialSize",
-	"minIdle",
-	"maxActive",
-
-	"testOnBorrow",
-	"validationQuery",
-	"validationInterval",
-	"validationQueryTimeout",
-	"testWhileIdle",
-	"timeBetweenEvictionRunsMillis",
+	"module-type",
+	"source-path",
+#	"war-name",
 );
 
 sub now {
@@ -98,11 +85,8 @@ sub info {
 sub main {
 	my ($file) = @_;
 
-	my %params = ("auth" => "Container",
-		"type" => "javax.sql.DataSource",
-	);
-	my $in_property = 0;
-	my $prop_name;
+	my %params = ();
+	my $in_app_deployment = 0;
 
 	open my $in, "$file" or die "open: $!";
 	while (<$in>) {
@@ -116,50 +100,35 @@ sub main {
 #		next if (/<\/?jdbc-driver-params>/);
 #		next if (//);
 
-		if ($in_property) {
-			if (/<\/property>/) {
-				$in_property = 0;
-			}
-			else {
-				if (/<name>([\S ]+)<\/name>/) {
-					$prop_name = $1;
+		if ($in_app_deployment) {
+			if (/<\/app-deployment>/) {
+				$in_app_deployment = 0;
+
+#				my $path = $params{"source-path"};
+#				$path =~ s/\w*\/([\w-]+)\.war$/$1/;
+#				$params{"war-name"} = $path;
+
+				my @array = ();
+				for my $key (@COLUMNS) {
+					push @array, $params{$key};
 				}
-				elsif (/<value>([\S ]+)<\/value>/) {
-					if ($prop_name eq "user") {
-						$params{"username"} = $1;
-					}
-					$prop_name = "";
+				print (join "\t", @array);
+				print "\n";
+				next;
+			}
+
+			for my $c (@COLUMNS) {
+				if (/<$c>([\S ]+)<\/$c>/) {
+					$params{$c} = $1;
+					next;
 				}
 			}
-			next;
 		}
-
-		my $p = $_;
-		my @match = grep { $p =~ /$_/ } keys %TAGS;
-		if (@match) {
-			::info "OK: @match";
-
-			$p = $match[0];
-			next if (!$TAGS{$p});
-
-			my $tag = $TAGS{$p};
-			if (/<[^>]+>([\S ]+)<[^<>]+>/) {
-				my $value = $1;
-				::info "tag=[$tag] value=[$value]";
-				$params{$tag} = \"$value\";
-			}
-			else {
-				::error "xml format (rec=[$_])";
-			}
-
-		}
-		elsif ($_ =~ /<property>/) {
-			$in_property = 1;
+		elsif (/<app-deployment>/) {
+			$in_app_deployment = 1;
 		}
 		else {
-
-			::info "NG: $_";
-
+#			::info "NG: $_";
 		}
 
 	}
@@ -168,17 +137,11 @@ sub main {
 #	for my $key (sort keys %params) {
 #		print "$key : $params{$key}\n";
 #	}
-	my @array = ();
-	push @array, $file;
-	for my $key (@COLUMNS) {
-		push @array, $params{$key};
-	}
-	print (join "\t", @array)."\n";
 }
 
-print "file\t".(join "\t", @COLUMNS)."\n";
+print (join "\t", @COLUMNS);
+print "\n";
 for my $f (@ARGV) {
-	print "\n";
 	::main $f;
 }
 0;

@@ -2,3 +2,6 @@
 /js/A
 /js/B
 utils/Highlight.exe
+/**/*.class
+/**/*.war
+/**/*.jar

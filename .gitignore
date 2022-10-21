@@ -1,7 +1,11 @@
-.gitattributes
+/.classpath
+/.gitattributes
+/.project
+/.settings/
 /js/A
 /js/B
-utils/Highlight.exe
+/utils/Highlight.exe
 /**/*.class
 /**/*.war
 /**/*.jar
+/bin/

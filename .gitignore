@@ -1,3 +1,9 @@
 .gitattributes
+/.settings
+/.classpath
+/.project
+/bin/
+/build/
 /js/A
 /js/B
+/.gradle

@@ -78,7 +78,7 @@ class Highlight
 			SetActiveWindow(target);
 //			Thread.Sleep(5 * 1000);
 //			SetActiveWindow("コマンド プロンプト - Highlight");
-			SetActiveWindow(" " + cmd, r.Next(45, 90));
+			SetActiveWindow(cmd, r.Next(45, 90));
 //			Thread.Sleep(r.Next(45, 90) * 1000);
 		}
 	}

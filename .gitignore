@@ -5,3 +5,7 @@ utils/Highlight.exe
 /**/*.class
 /**/*.war
 /**/*.jar
+/**/*.pdf
+/.settings
+/.classpath
+/.project

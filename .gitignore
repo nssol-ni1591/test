@@ -10,3 +10,5 @@
 /**/*.jar
 /bin/
 /refs/
+/.gradle/
+/build/

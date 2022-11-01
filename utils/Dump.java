@@ -1,7 +1,11 @@
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -12,10 +16,9 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.Vector;
 
-public class Dump {
+public class Dump implements Serializable {
 
 	static ResourceBundle bundle = null;
-
 	static {
 		try {
 			bundle = ResourceBundle.getBundle("dump");
@@ -96,41 +99,42 @@ public class Dump {
 
 		System.out.println(indent.toString() + "| fields:");
 		Field[] fields = c.getDeclaredFields();
-		for (int ix = 0; ix < fields.length; ix++) {
-			Field f = fields[ix];
-			boolean status = false;
-			try {
-				printClass(f.get(o), f.getName(), num + 1);
-				status = true;
-			}
-			catch (IllegalAccessException ex) { }
-
-			if (!status) {
+		Arrays.stream(fields)
+			.filter(f -> {
+				try {
+					printClass(f.get(o), f.getName(), num + 1);
+					return false;
+				}
+				catch (IllegalAccessException ex) { }
+				return true;
+			})
+			.filter(f -> {
 				String name = "get" + f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1) ;
 				try {
 					Method m = c.getDeclaredMethod(name, new Class[] { });
 					Object obj = m.invoke(o, new Object[] { });
 					printClass(obj, f.getName(), num + 1);
-					status = true;
+					return false;
 				}
 				catch (Exception ex) { }
-			}
-			if (!status) {
+				return true;
+			})
+			.filter(f -> {
 				String name = getProperty(f.getName());
 				if (name == null) { }
 				else try {
 					Method m = c.getDeclaredMethod(name, new Class[] { });
 					Object obj = m.invoke(o, new Object[] { });
 					printClass(obj, f.getName(), num + 1);
-					status = true;
+					return false;
 				}
 				catch (Exception ex) { }
-			}
-			if (!status) {
+				return true;
+			})
+			.forEach(f -> {
 				String msg = "An inaccessible field and getter is not found";
 				System.out.println(indent + "|  " + f.getName() + " =>" + msg);
-			}
-		}
+			});
 	}
 
 	/*
@@ -140,6 +144,21 @@ public class Dump {
 
 		Object o = new Dump();
 		Dump.printClass(o, "o");
+
+		System.out.println("----");
+		try {
+			FileOutputStream fileOutputStream = new FileOutputStream("dump.bin");
+			ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+
+			objectOutputStream.writeObject(o);
+			objectOutputStream.flush();
+			objectOutputStream.close();
+			
+			System.out.println(">>> Serialize successful");
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 
 	private String s;
@@ -155,43 +174,53 @@ public class Dump {
 		this.sub = new DumpSub();
 		this.m = new HashMap<>();
 		this.m.put("a", "a");
-//		this.m.put("b", "b");
 		this.m.put("c", new DumpSub());
 		this.m.put("d", new DumpList());
 	}
 
-	public class DumpSub {
+	public class DumpSub implements Serializable {
 
 		private List<String> list;
-		private String[] array;
+		private DumpArray[] array;
 		private DumpSub parent;
 
 		public DumpSub() {
 			this.list = new ArrayList<>();
-			this.list.add("a");
-//			this.list.add("b");
+			this.list.add("0");
+			this.list.add("1");
 
-			this.array = new String[] { "x", "y", "z" };
+			this.array = new DumpArray[] { new DumpArray("A"), new DumpArray("B") };
 		}
 
 		public List<String> getList() {
 			return list;
 		}
-		public String[] getArray() {
+		public DumpArray[] getArray() {
 			return array;
 		}
 	}
 
 	public class DumpList extends ArrayList<String> {
 
-		private String s;
+		private static final long serialVersionUID = -6517253125595161761L;
+		private Long obj;
 
 		public DumpList() {
 			this.add("xyz");
-			this.s = "";
+			this.obj = (long) 0;
 		}
-		public String getString() {
-			return s;
+		public Long getObject() {
+			return obj;
+		}
+	}
+
+	public class DumpArray implements Serializable {
+		
+		private static final long serialVersionUID = 4887294429199769982L;
+		Object o;
+
+		public DumpArray(String s) {
+			o = s;
 		}
 	}
 }

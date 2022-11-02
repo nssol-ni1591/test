@@ -1,3 +1,4 @@
+import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -54,7 +55,7 @@ public class Dump implements Serializable {
 			return;
 		}
 		if (n != null && n.startsWith("this$")) {
-//			System.out.println(indent + "  => inner class?");
+//			System.out.println(indent + "  => reference of inner class?");
 			return;
 		}
 
@@ -133,7 +134,7 @@ public class Dump implements Serializable {
 			})
 			.forEach(f -> {
 				String msg = "An inaccessible field and getter is not found";
-				System.out.println(indent + "|  " + f.getName() + " =>" + msg);
+				System.out.println(indent + "|  " + f.getName() + " => " + msg);
 			});
 	}
 
@@ -147,11 +148,12 @@ public class Dump implements Serializable {
 
 		System.out.println("----");
 		try {
-			FileOutputStream fileOutputStream = new FileOutputStream("dump.bin");
-			ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+//			FileOutputStream outputStream = new FileOutputStream("dump.bin");
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+			ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
 
 			objectOutputStream.writeObject(o);
-			objectOutputStream.flush();
+//			objectOutputStream.flush();
 			objectOutputStream.close();
 			
 			System.out.println(">>> Serialize successful");

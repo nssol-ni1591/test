@@ -6,14 +6,16 @@
 
 //import jp.co.fit.vfreport.Vrw32;
 import java.io.*;
-import javax.servlet.*;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
+import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.*;
 
 @WebServlet(name="socket", urlPatterns = { "/socket" })
 public class SocketClientServlet extends HttpServlet {
 
-  public void doGet(HttpServletRequest req,
+  private static final long serialVersionUID = 9069152909938560969L;
+
+public void doGet(HttpServletRequest req,
                       HttpServletResponse res)
                       throws ServletException, IOException {
     try {

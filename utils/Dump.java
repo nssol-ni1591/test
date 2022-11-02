@@ -1,4 +1,3 @@
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -18,6 +17,7 @@ import java.util.Vector;
 
 public class Dump implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	static ResourceBundle bundle = null;
 	static {
 		try {
@@ -170,16 +170,17 @@ public class Dump implements Serializable {
 		this.s = "abc";
 		this.v = new Vector<>();
 		this.v.add("a");
-		this.v.add("b");
+		this.v.add(s);
 		this.sub = new DumpSub();
 		this.m = new HashMap<>();
 		this.m.put("a", "a");
 		this.m.put("c", new DumpSub());
-		this.m.put("d", new DumpList());
+		this.m.put("d", sub);
 	}
 
 	public class DumpSub implements Serializable {
 
+		private static final long serialVersionUID = 1L;
 		private List<String> list;
 		private DumpArray[] array;
 		private DumpSub parent;
@@ -197,6 +198,9 @@ public class Dump implements Serializable {
 		}
 		public DumpArray[] getArray() {
 			return array;
+		}
+		public DumpSub getParent() {
+			return parent;
 		}
 	}
 

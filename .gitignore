@@ -14,3 +14,7 @@
 /.gradle/
 /build/
 /**/*.bin
+/gradle/
+/jodconverter-sample-client/
+/jodconverter-sample-webapp/
+/gradle*

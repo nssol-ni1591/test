@@ -26,7 +26,6 @@ import jakarta.servlet.annotation.WebListener;
 import org.jodconverter.core.office.OfficeException;
 
 @WebListener()
-@SuppressWarnings("PMD")
 public class WebappContextListener implements ServletContextListener {
 
   @Override

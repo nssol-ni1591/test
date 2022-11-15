@@ -21,10 +21,8 @@ package org.jodconverter.sample.webapp;
 
 import jakarta.servlet.ServletContext;
 
-//import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-//import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 
 import org.jodconverter.core.DocumentConverter;
 import org.jodconverter.core.office.OfficeException;
@@ -32,7 +30,6 @@ import org.jodconverter.core.office.OfficeManager;
 import org.jodconverter.local.LocalConverter;
 import org.jodconverter.local.office.LocalOfficeManager;
 
-@SuppressWarnings("PMD")
 public class WebappContext {
 
   public static final String PARAMETER_OFFICE_PORT = "office.port";
@@ -40,7 +37,7 @@ public class WebappContext {
   public static final String PARAMETER_OFFICE_PROFILE = "office.profile";
   public static final String PARAMETER_FILEUPLOAD_FILE_SIZE_MAX = "fileupload.fileSizeMax";
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(WebappContext.class);
+  //private static final Logger LOGGER = LoggerFactory.getLogger(WebappContext.class);
   private static final String KEY = WebappContext.class.getName();
 
   private final OfficeManager officeManager;

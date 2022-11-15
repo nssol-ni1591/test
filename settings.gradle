@@ -10,6 +10,4 @@
 rootProject.name = 'test'
 //include('app')
 include('jodconverter-sample-webapp')
-
-include('sample-client')
-include('sample-webapp2')
+include('jodconverter-sample-client')

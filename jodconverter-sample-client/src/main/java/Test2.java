@@ -29,10 +29,10 @@ public class Test2 {
 		try {
 			System.out.println("convert start");
 
-			// before file
+			// source file
 			File excelFile = new File(inFile);
 
-			// converted file
+			// target file
 			String name = excelFile.getName();
 			int point = name.lastIndexOf(".");
 		    if (point != -1) {
@@ -44,6 +44,7 @@ public class Test2 {
 			converter.convert(excelFile).to(pdfFile).execute();
 
 			System.out.println("convert end");
+
 		} finally {
 			officeManager.stop();
 		}

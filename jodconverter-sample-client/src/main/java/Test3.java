@@ -1,11 +1,9 @@
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-//import java.util.Properties;
 
 import org.jodconverter.core.DocumentConverter;
 import org.jodconverter.core.document.DocumentFormat;
@@ -37,10 +35,10 @@ public class Test3 {
 		try {
 			System.out.println("convert start");
 
-			// before stream
+			// source stream
 			InputStream is = new FileInputStream(inFile);
 
-			// converted stream
+			// target stream
 			String name = inFile;
 			int point = name.lastIndexOf(".");
 		    if (point != -1) {
@@ -48,7 +46,7 @@ public class Test3 {
 		    } 
 			OutputStream os = new FileOutputStream(name + ".pdf");
 
-			// format of os 
+			// format of target stream (pdf)
 			DocumentFormatRegistry registry = converter.getFormatRegistry();
 			DocumentFormat pdf = registry.getFormatByExtension("pdf");
 
@@ -56,6 +54,7 @@ public class Test3 {
 			converter.convert(is).to(os).as(pdf).execute();
 
 			System.out.println("convert end");
+
 		} catch (FileNotFoundException ex) {
 			ex.printStackTrace();
 		} finally {
@@ -65,9 +64,6 @@ public class Test3 {
 
 	public static void main(String... args) throws OfficeException {
 
-		//Properties props = System.getProperties();
-		//props.list(System.out); 
-		 
 		if (args.length < 1) {
 			System.err.println();
 			System.err.println("[Error] Required to convert file\n");

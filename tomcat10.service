@@ -4,7 +4,7 @@ ConditionPathExists=/opt/apache-tomcat-10.0.27
 
 [Service]
 User=tomcat
-Group=tomcat
+Group=ap-users
 Type=oneshot
 
 ExecStart=/opt/apache-tomcat-10.0.27/bin/startup.sh

@@ -40,21 +40,11 @@ import org.jodconverter.core.DocumentConverter;
 import org.jodconverter.core.util.FileUtils;
 
 /** Converter servlet. */
-@WebServlet(urlPatterns = { "/convert-to/pdf", "/converted/document.pdf" },
-	initParams = {
-		@WebInitParam(name = "office.port", value = "8100"),
-		@WebInitParam(name = "office.home", value = "/opt/openoffice4"),
-	}
-)
+@WebServlet(urlPatterns = { "/convert-to/pdf", "/converted/document.pdf" })
 @MultipartConfig(location="/tmp") //, maxFileSize=5242880)
 public class ConverterServlet extends HttpServlet {
 
-	public static final String PARAMETER_OFFICE_PORT = "office.port";
-	public static final String PARAMETER_OFFICE_HOME = "office.home";
-	public static final String PARAMETER_OFFICE_PROFILE = "office.profile";
-
   private static final long serialVersionUID = -591469426224201748L;
-
   private static final Logger LOGGER = LoggerFactory.getLogger(ConverterServlet.class);
 
   @Override

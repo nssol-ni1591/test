@@ -35,7 +35,6 @@ public class WebappContext {
   public static final String PARAMETER_OFFICE_PORT = "office.port";
   public static final String PARAMETER_OFFICE_HOME = "office.home";
   public static final String PARAMETER_OFFICE_PROFILE = "office.profile";
-  public static final String PARAMETER_FILEUPLOAD_FILE_SIZE_MAX = "fileupload.fileSizeMax";
 
   //private static final Logger LOGGER = LoggerFactory.getLogger(WebappContext.class);
   private static final String KEY = WebappContext.class.getName();

@@ -12,6 +12,8 @@
 /**/*.class
 /**/*.jar
 /**/*.war
+/**/*.xlsx
+/**/*.pdf
 /gradlew
 /gradlew.bat
 /jodconverter.zip

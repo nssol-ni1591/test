@@ -1,0 +1,66 @@
+plugins {
+	id 'war'
+}
+
+group = 'org.jodconverter'
+description = 'JODConverter - Sample Web Application'
+
+java {
+	sourceCompatibility = JavaVersion.VERSION_1_8
+	targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+//	implementation project(":jodconverter-local")
+
+// commons-logging-1.2.jar
+	implementation group: 'commons-logging', name: 'commons-logging', version: '1.2'
+// gson-2.8.6.jar
+	implementation group: 'com.google.code.gson', name: 'gson', version: '2.8.9'
+// jodconverter-core-4.4.2.jar
+	implementation group: 'org.jodconverter', name: 'jodconverter-core', version: '4.4.4'
+// jodconverter-local-4.4.2.jar
+	implementation group: 'org.jodconverter', name: 'jodconverter-local', version: '4.4.4'
+// juh-4.1.2.jar
+	implementation group: 'org.openoffice', name: 'juh', version: '4.1.2'
+// jurt-4.1.2.jar
+//	implementation group: 'org.openoffice', name: 'jurt', version: '4.1.2'
+// ridl-4.1.2.jar
+	implementation group: 'org.openoffice', name: 'ridl', version: '4.1.2'
+// slf4j-api-1.7.30.jar
+	implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.36'
+// unoil-4.1.2.jar
+	implementation group: 'org.openoffice', name: 'unoil', version: '4.1.2'
+
+//	compileOnly "javax.servlet:javax.servlet-api"
+	compileOnly group: 'org.apache.tomcat', name: 'tomcat-servlet-api', version: '10.0.27'
+
+//	runtimeOnly "org.slf4j:slf4j-log4j12"
+
+// log4j-1.2.17.jar
+//	implementation group: 'log4j', name: 'log4j', version: '1.2.17'
+	runtimeOnly group: 'log4j', name: 'log4j', version: '1.2.17'
+// slf4j-nop-1.7.36.jar
+//	testImplementation group: 'org.slf4j', name: 'slf4j-nop', version: '1.7.36'
+	runtimeOnly group: 'org.slf4j', name: 'slf4j-nop', version: '1.7.36'
+// jurt-4.1.2.jar
+//	implementation group: 'org.openoffice', name: 'jurt', version: '4.1.2'
+	runtimeOnly group: 'org.openoffice', name: 'jurt', version: '4.1.2'
+
+//	tomcat "org.apache.tomcat.embed:tomcat-embed-core"
+//	tomcat "org.apache.tomcat.embed:tomcat-embed-jasper"
+}
+
+//tomcat {
+//	httpProtocol = "org.apache.coyote.http11.Http11Nio2Protocol"
+//	ajpProtocol = "org.apache.coyote.ajp.AjpNio2Protocol"
+//}
+
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
+
+war.archiveName = 'lool.war'

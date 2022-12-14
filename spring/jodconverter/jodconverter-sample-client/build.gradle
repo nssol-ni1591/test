@@ -1,0 +1,75 @@
+plugins {
+	id 'java'
+	id 'com.github.johnrengelman.shadow' version '7.1.2'
+	id 'application'
+}
+
+application {
+	mainClass = 'Test3'
+//	applicationDefaultJvmArgs = [ '-Dfile.encoding=UTF-8' ]
+}
+
+group = 'org.jodconverter'
+description = 'JODConverter - Sample Client Application'
+
+
+java {
+	sourceCompatibility = JavaVersion.VERSION_1_8
+	targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+compileJava {
+	options.encoding = 'UTF-8'
+//	options.jvmArgs = [ "-J-Dfile.encoding=UTF-8" ] ... Error!!
+//	options.compilerArgs += [ "-J-Dfile.encoding=UTF-8" ] //... Error!!
+//	CompileOptions.forkOptions.jvmArgs += [ "-J-Dfile.encoding=UTF-8" ]
+}
+compileTestJava.options.encoding = 'UTF-8'
+
+repositories.mavenCentral()
+
+dependencies {
+//	implementation project(":jodconverter-local")
+
+// jodconverter-core-4.4.2.jar
+	implementation group: 'org.jodconverter', name: 'jodconverter-core', version: '4.4.4'
+// jodconverter-remote-4.4.2.jar
+	implementation group: 'org.jodconverter', name: 'jodconverter-remote', version: '4.4.4'
+
+
+// fluent-hc-4.5.13.jar
+	runtimeOnly group: 'org.apache.httpcomponents', name: 'fluent-hc', version: '4.5.13'
+// httpclient-4.5.13.jar
+	runtimeOnly group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
+// httpcore-4.4.14.jar
+	runtimeOnly group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.4.15'
+// httpmime-4.5.13.jar
+	runtimeOnly group: 'org.apache.httpcomponents', name: 'httpmime', version: '4.5.13'
+
+// slf4j-api-1.7.30.jar
+	runtimeOnly group: 'org.slf4j', name: 'slf4j-api', version: '1.7.36'
+// slf4j-nop-1.7.36.jar
+	runtimeOnly group: 'org.slf4j', name: 'slf4j-nop', version: '1.7.36'
+// commons-logging-1.2.jar
+	runtimeOnly group: 'commons-logging', name: 'commons-logging', version: '1.2'
+// log4j-1.2.17.jar
+	runtimeOnly group: 'log4j', name: 'log4j', version: '1.2.17'
+}
+
+jar {
+//	manifest {
+//		attributes('Main-Class': 'Test2')
+//	}
+}
+
+runShadow {
+//	options.encoding = 'UTF-8' ... Error!!
+//	systemProperty "file.encoding", "UTF-8" ... Ignore!!
+//	defaultCharacterEncoding = "UTF-8" ... Ignore!!
+//	options = '-Dfile.encoding=UTF-8' ... Error!!
+//	jvmArgs = [ '-Dfile.encoding=UTF-8' ] .. Ignore
+//	jvmArgs = [ "-Duser.language=ja", "-Dfile.encoding=UTF-8", "-Dnative.encoding=UTF-8" ]
+
+//	args = [ "README.md" ]
+	args = [ "http://localhost:8080", "aREADME.md" ]
+}

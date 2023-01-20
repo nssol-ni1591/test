@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <%@ page import="java.util.Date"%>
 <%@ page import="java.util.HashMap"%>
@@ -9,9 +10,6 @@
 <%
 	ResourceBundle rb = ResourceBundle.getBundle("LocalStrings",request.getLocale());
 	String title = rb.getString("sessions.title");
-	String session_id = rb.getString("sessions.id") + " " + session.getId();
-	String session_created = rb.getString("sessions.created") + " " + new Date(session.getCreationTime());
-	String session_lastaccessed = rb.getString("sessions.lastaccessed") + " " + new Date(session.getLastAccessedTime());
 
 	@SuppressWarnings("unchecked")
 	Map<String, String> map = (Map<String,String>)session.getAttribute("map");
@@ -22,6 +20,14 @@
 <head>
 <meta charset="UTF-8" />
 <title><%=title%></title>
+<style>
+	table {
+		border-collapse: collapse;
+	}
+	table th, table td {
+		border: solid 1px black;
+	}
+</style>
 </head>
 <body bgcolor="white">
 
@@ -32,16 +38,14 @@
 
 <h3><%=title%></h3>
 
-<%=rb.getString("sessions.id") + " " + session.getId()%>
-<br>
-<%=rb.getString("sessions.created") + " " + new Date(session.getCreationTime())%>
-<br>
-<%=rb.getString("sessions.lastaccessed") + " " + new Date(session.getLastAccessedTime())%>
-<br>
-<P>
+<ul>
+<li><%=rb.getString("sessions.id") + " " + session.getId()%></li>
+<li><%=rb.getString("sessions.created") + " " + new Date(session.getCreationTime())%></li>
+<li><%=rb.getString("sessions.lastaccessed") + " " + new Date(session.getLastAccessedTime())%></li>
+</ul>
+
 <form action="<%=response.encodeURL("/test/session")%>" method="POST">
-<P>
-<%=rb.getString("sessions.data")%><br>
+<P><%=rb.getString("sessions.data")%></P>
 
 <table border=1>
 <tr>
@@ -49,33 +53,33 @@
 <th><%=rb.getString("sessions.dataname")%></th>
 <th><%=rb.getString("sessions.datavalue")%></th>
 </tr>
-<% 
-	if (map == null) { }
-	else for (String key : map.keySet()) {
-		String val = map.get(key);
-%>
-<tr>
-<td><input type="checkbox" name="DEL" value="<%=key%>"></input></td>
-<td><%=key%></td>
-<td><%=val%></td>
-</tr>
-<%
-	}
-%>
+<c:forEach var="v" items="${map}">
+	<tr>
+	<td><input type="checkbox" name="DEL" value="${v.key}"></input></td>
+	<td><c:out value="${v.key}"/></td>
+	<td><c:out value="${v.value}"/></td>
+	</tr>
+</c:forEach>
 </table>
 
-<p>
-<%=rb.getString("sessions.dataname")%>
-<input type=text size=20 name="dataname">
-<br/>
-<%=rb.getString("sessions.datavalue")%>
-<input type=text size=20 name="datavalue"
-><br/>
+<p/>
+<table>
+<tr>
+<th><%=rb.getString("sessions.dataname")%></th>
+<td><input type=text size=20 name="dataname"/></td>
+</tr>
+<tr>
+<th><%=rb.getString("sessions.datavalue")%></th>
+<td><input type=text size=20 name="datavalue"/></td>
+</tr>
+</table>
+
+<p/>
 <input type="radio" name="attribute" value="set"/>update session<br/>
 <input type="radio" name="attribute" value="remove"/>remove session<br/>
-<input type="radio" name="attribute" value="none" checked/>nop
-</p>
-<input type=submit>
+<input type="radio" name="attribute" value="none" checked/>nop<br/>
+<p/>
+<input type="submit"/>
 </form>
 </body>
 </html>

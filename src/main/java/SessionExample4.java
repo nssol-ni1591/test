@@ -36,7 +36,7 @@ import javax.servlet.http.HttpSession;
  *  JavaEE9(javax..)で実装されているのでtomcat9までしか使用できない
  *  
  */
-@WebServlet(name="session", urlPatterns = { "/session" })
+@WebServlet(name="session", urlPatterns = { "/session", "/servlet/SessionExample4" })
 public class SessionExample4 extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -53,6 +53,9 @@ public class SessionExample4 extends HttpServlet {
 //		for (String key : request.getParameterMap().keySet()) {
 //			System.out.println(key + ": " + String.join(",", request.getParameterValues(key)));
 //		}
+		request.getParameterMap().keySet().stream()
+			.map(key -> key + ": " + String.join(",", request.getParameterValues(key)))
+			.forEach(System.out::println);
 
 		HttpSession session = request.getSession(true);
 

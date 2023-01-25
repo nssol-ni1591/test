@@ -12,6 +12,12 @@ plugins {
     id 'war'
 }
 
+war {
+    from('src/main/java') {
+        include 'LocalStrings_ja.properties'
+        into('WEB-INF/classes')
+    }
+}
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
@@ -42,3 +48,5 @@ tasks.named('test') {
 
 compileJava.options.encoding = 'UTF-8'
 compileTestJava.options.encoding = 'UTF-8'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8

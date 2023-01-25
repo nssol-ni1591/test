@@ -9,17 +9,9 @@
 
 	HashMap<String, String> headers = new HashMap<>();
 	Collections.list(request.getHeaderNames())
-		.forEach(key -> {
-			StringBuilder val = new StringBuilder();
-			Collections.list(request.getHeaders(key))
-				.forEach(v -> {
-					if (!val.toString().isEmpty()) {
-						val.append(",");
-					}
-					val.append(v);
-				});
-			headers.put(key, val.toString());
-		});
+		.forEach(key -> 
+			headers.put(key, Collections.list(request.getHeaders(key)).stream()
+				.collect(Collectors.joining(","))));
 
 	HashMap<String, String> params = new HashMap<>();
 	request.getParameterMap().keySet().stream()

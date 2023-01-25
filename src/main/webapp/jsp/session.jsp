@@ -49,15 +49,15 @@
 
 <table border=1>
 <tr>
-<th><%=rb.getString("sessions.delflag")%></th>
-<th><%=rb.getString("sessions.dataname")%></th>
-<th><%=rb.getString("sessions.datavalue")%></th>
+<td><%=rb.getString("sessions.delflag")%></td>
+<td><%=rb.getString("sessions.dataname")%></td>
+<td><%=rb.getString("sessions.datavalue")%></td>
 </tr>
-<c:forEach var="v" items="${map}">
+<c:forEach var="elm" items="${map}">
 	<tr>
-	<td><input type="checkbox" name="DEL" value="${v.key}"></input></td>
-	<td><c:out value="${v.key}"/></td>
-	<td><c:out value="${v.value}"/></td>
+	<td><input type="checkbox" name="DEL" value="${elm.key}"></input></td>
+	<td><c:out value="${elm.key}"/></td>
+	<td><c:out value="${elm.value}"/></td>
 	</tr>
 </c:forEach>
 </table>
@@ -65,11 +65,11 @@
 <p/>
 <table>
 <tr>
-<th><%=rb.getString("sessions.dataname")%></th>
+<td><%=rb.getString("sessions.dataname")%></td>
 <td><input type=text size=20 name="dataname"/></td>
 </tr>
 <tr>
-<th><%=rb.getString("sessions.datavalue")%></th>
+<td><%=rb.getString("sessions.datavalue")%></td>
 <td><input type=text size=20 name="datavalue"/></td>
 </tr>
 </table>

@@ -16,11 +16,8 @@
 */
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Stream;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -39,8 +36,8 @@ import javax.servlet.http.HttpSession;
  *  JavaEE9(javax..)で実装されているのでtomcat9までしか使用できない
  *  
  */
-@WebServlet(name="session4", urlPatterns = { "/session4", "/servlet/SessionExample4" })
-public class SessionExample4 extends HttpServlet {
+@WebServlet(name="session5", urlPatterns = { "/session", "/servlet/SessionExample5" })
+public class SessionExample5 extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
@@ -60,7 +57,7 @@ public class SessionExample4 extends HttpServlet {
 			.map(key -> key + ": " + String.join(",", request.getParameterValues(key)))
 			.forEach(System.out::println);
 
-	    HttpSession session = request.getSession(true);
+		HttpSession session = request.getSession(true);
 
 		@SuppressWarnings("unchecked")
 		Map<String, String> map = (Map<String,String>)session.getAttribute("map");
@@ -91,7 +88,7 @@ public class SessionExample4 extends HttpServlet {
 		}
 
 		//フォワード先の指定
-		RequestDispatcher dispatcher =  request.getRequestDispatcher("/jsp/session.jsp");
+		RequestDispatcher dispatcher =  request.getRequestDispatcher("/jsp/redirect.jsp");
 		//フォワードの実行
 		dispatcher.forward(request, response);
 	}
@@ -104,7 +101,7 @@ public class SessionExample4 extends HttpServlet {
 //		doPost(request, response);
 
 		//フォワード先の指定
-		RequestDispatcher dispatcher =  request.getRequestDispatcher("/jsp/session.jsp");
+		RequestDispatcher dispatcher =  request.getRequestDispatcher("/jsp/redirect.jsp");
 		//フォワードの実行
 		dispatcher.forward(request, response);
 	}

@@ -22,7 +22,6 @@ import java.util.Enumeration;
 import java.util.ResourceBundle;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,7 +38,7 @@ import util.HTMLFilter;
  *  JavaEE9(javax..)で実装されているのでtomcat9までしか使用できない
  *  
  */
-@WebServlet(name="session1", urlPatterns = { "/session1" })
+//@WebServlet(name="session1", urlPatterns = { "/session1" })
 public class SessionExample extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;

@@ -4,9 +4,9 @@
 # 機能概要       : ログからバックアップファイルを作成する。指定期間を経過したバックアップファイルを削除する。
 # 実行ユーザ     : ajsjob
 # パラメータ     : 起動日時($1)
-# リターンコード : 正常=0,警告=40(未使用),異常=100
+# リターンコード : 正常=0,警告=40,異常=100
 # 作成者/作成日  : 立原/2022年10月27日
-# 更新者/更新日  : 河渡/2022年11月30日
+# 更新者/更新日  : 河渡/2023年 1月31日
 ###############################################################################
 
 ###########################################
@@ -17,18 +17,20 @@
 ###########################################
 # 個別設定
 ###########################################
-readonly PARAM_LAPSED_DAYS_AP_TMP=31                                                #指定期間(テンポラリ)
-readonly PARAM_LAPSED_DAYS_AP_LOG=90                                                #指定期間(APログ)
-readonly TARGET_DIR_SINGLE_MASTAR="/export/containers/spring-redis-single-0/data"   #ログファイルディレクトリ(Redisシングル構成（マスタ）または、Redis可用性構成（マスタ）)
-readonly TARGET_DIR_SINGLE_SLAVE1="/export/containers/spring-redis-single-1/data"   #ログファイルディレクトリ(Redis可用性構成（スレーブ1）)
-readonly TARGET_DIR_SINGLE_SLAVE2="/export/containers/spring-redis-single-2/data"   #ログファイルディレクトリ(Redis可用性構成（スレーブ2）)
-readonly TARGET_DIR_SENTINEL0="/export/containers/spring-redis-sentinel-0/data"     #ログファイルディレクトリ(Redis可用性構成（slot#0 sentinel）)
-readonly TARGET_DIR_SENTINEL1="/export/containers/spring-redis-sentinel-1/data"     #ログファイルディレクトリ(Redis可用性構成（slot#1 sentinel）)
-readonly TARGET_DIR_SENTINEL2="/export/containers/spring-redis-sentinel-2/data"     #ログファイルディレクトリ(Redis可用性構成（slot#2 sentinel）)
+# 指定期間(テンポラリ)
+readonly PARAM_LAPSED_DAYS_AP_TMP=31
+# 指定期間(APログ)
+readonly PARAM_LAPSED_DAYS_AP_LOG=90
 
-LOG_FILE_MNT="/export/batch/log/Redis999002B.log"                                   #メンテナンスログファイル
+# Redisログファイルディレクトリ
+readonly TARGET_DIR_REDIS="/export2/containers/spring-redis-*/"
 
-LOG_FILE_NAME=`date '+%Y%m%d'`                                                      #ログファイル圧縮用ディレクトリ名
+# メンテナンスログファイル
+LOG_FILE_MNT="/export2/batch/redis/log/Redis999002B.log"
+# ログファイル圧縮用ファイル名
+LOG_FILE_NAME=`date '+%Y%m%d'`
+# リターンコード
+STATUS=0
 
 ###########################################
 # ローテ関数
@@ -41,6 +43,7 @@ lotate() {
 		mkdir ${LOG_FILE_NAME}
 		for file in $FILES; do
 			cp -p $file ${LOG_FILE_NAME}/
+			# 対象ファイルを空にする
 			cp /dev/null $file
 		done
 
@@ -64,18 +67,15 @@ echo "REMOVE_TMP_FILE STARTED `date '+%Y/%m/%d %H:%M:%S'`" <&- >>${LOG_FILE_MNT}
 # コマンドの実行
 ###########################################
 
-# Redisシングル構成 または Redisマスタ-スレーブ構成の処理
-DIRS="$TARGET_DIR_SINGLE_MASTAR $TARGET_DIR_SINGLE_SLAVE1 $TARGET_DIR_SINGLE_SLAVE2"
-for dir in $DIRS; do
-	[ -d $dir ] || continue
-	(lotate $dir)
-done
-
-# Redisセンチネル構成の処理
-DIRS="$TARGET_DIR_SENTINEL0 $TARGET_DIR_SENTINEL1 $TARGET_DIR_SENTINEL2"
-for dir in $DIRS; do
-	[ -d $dir ] || continue
-	(lotate $dir)
-done
-
-exit 0;
+DIRS=`find $TARGET_DIR_REDIS -name data -type d`
+if [ -n "$DIRS" ]; then
+	for dir in $DIRS; do
+		[ -d ${dir}/../bk ] && (lotate $dir) && continue
+		echo "REMOVE_TMP_FILE ERROR `date '+%Y/%m/%d %H:%M:%S'` ${dir}/../bk not found" <&- >>${LOG_FILE_MNT} 2>&1
+		STATUS=40
+	done
+else
+	echo "REMOVE_TMP_FILE ERROR `date '+%Y/%m/%d %H:%M:%S'` \$DIRS is empty" <&- >>${LOG_FILE_MNT} 2>&1
+	STATUS=100
+fi
+exit $STATUS

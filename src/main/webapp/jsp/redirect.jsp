@@ -5,7 +5,8 @@
 
 <%
 	ServletContext context = request.getServletContext();
-	String url = "/test/jsp/session.jsp";
+	String url = context.getContextPath() + "/jsp/session.jsp";
+	String delay = request.getAttribute("delay") == null ? "5" : request.getAttribute("delay").toString();
 
 	HashMap<String, String> headers = new HashMap<>();
 	Collections.list(request.getHeaderNames())
@@ -24,33 +25,65 @@
 		.forEach(key ->
 			sessions.put(key, request.getSession().getAttribute(key).toString())
 		);
+
+	HashMap<String, String> contexts = new HashMap<>();
+	Collections.list(context.getAttributeNames())
+		.forEach(key ->
+			contexts.put(key, context.getAttribute(key).toString())
+		);
+
+	HashMap<String, String> requests = new HashMap<>();
+	Collections.list(request.getAttributeNames())
+		.forEach(key ->
+			requests.put(key, request.getAttribute(key).toString())
+		);
 %>
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8" />
-<meta http-equiv="refresh" content="5;URL='<%=url%>'" />
+<meta http-equiv="refresh" content="<%=delay%>;URL='<%=url%>'" />
 <title>Redirect</title>
 </head>
 
 <body>
 <h1>Parameters:</h1>
 <table>
-<c:forEach var="elm" items="<%=params%>">
+<c:forEach var="e" items="<%=params%>">
 <tr>
-<td nowrap><c:out value="${elm.key}"/></td>
-<td><c:out value="${elm.value}"/></td>
+<td nowrap><c:out value="${e.key}"/></td>
+<td><c:out value="${e.value}"/></td>
 </tr>
 </c:forEach>
 </table>
 
 <h1>Sessions:</h1>
 <table>
-<c:forEach var="elm" items="<%=sessions%>">
+<c:forEach var="e" items="<%=sessions%>">
 <tr>
-<td nowrap><c:out value="${elm.key}"/></td>
-<td><c:out value="${elm.value}"/></td>
+<td nowrap><c:out value="${e.key}"/></td>
+<td><c:out value="${e.value}"/></td>
+</tr>
+</c:forEach>
+</table>
+
+<h1>Requests:</h1>
+<table>
+<c:forEach var="e" items="<%=requests%>">
+<tr>
+<td nowrap><c:out value="${e.key}"/></td>
+<td><c:out value="${e.value}"/></td>
+</tr>
+</c:forEach>
+</table>
+
+<h1>Contexts:</h1>
+<table>
+<c:forEach var="e" items="<%=contexts%>">
+<tr>
+<td nowrap><c:out value="${e.key}"/></td>
+<td><c:out value="${e.value}"/></td>
 </tr>
 </c:forEach>
 </table>
@@ -82,10 +115,10 @@
 
 <h1>Headers:</h1>
 <table>
-<c:forEach var="elm" items="<%=headers%>">
+<c:forEach var="e" items="<%=headers%>">
 <tr>
-<td nowrap><c:out value="${elm.key}"/></td>
-<td><c:out value="${elm.value}"/></td>
+<td nowrap><c:out value="${e.key}"/></td>
+<td><c:out value="${e.value}"/></td>
 </tr>
 </c:forEach>
 </table>

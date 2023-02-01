@@ -16,10 +16,12 @@
 */
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -58,34 +60,60 @@ public class SessionExample5 extends HttpServlet {
 			.forEach(System.out::println);
 
 		HttpSession session = request.getSession(true);
+		ServletContext context = getServletConfig().getServletContext();
 
 		@SuppressWarnings("unchecked")
-		Map<String, String> map = (Map<String,String>)session.getAttribute("map");
-		if (map == null) {
-			map = new HashMap<>();
+		Map<String, String> map1 = (Map<String,String>)session.getAttribute("map1");
+		if (map1 == null) {
+			map1 = new HashMap<>();
+		}
+		@SuppressWarnings("unchecked")
+		Map<String, String> map2 = (Map<String,String>)request.getAttribute("map2");
+		if (map2 == null) {
+			map2 = new HashMap<>();
+		}
+		@SuppressWarnings("unchecked")
+		Map<String, String> map3 = (Map<String,String>)context.getAttribute("map3");
+		if (map3 == null) {
+			map3 = new HashMap<>();
 		}
 
 		String name = request.getParameter("dataname");
 		String value = request.getParameter("datavalue");
 		if (name != null && value != null && !name.isEmpty() && !value.isEmpty()) {
-			map.put(name, value);
+			map1.put(name, value);
+			map2.put(name, value);
+			map3.put(name, value);
 		}
 
 		String[] vals = request.getParameterValues("DEL");
 		if (vals == null) { }
 		else for (String val : vals) {
-			map.remove(val);
+			map1.remove(val);
+			map2.remove(val);
+			map3.remove(val);
 		}
 
 		String attribute = request.getParameter("attribute");
 		if (attribute == null) { }
 		else if (attribute.equals("set")) {
-			session.setAttribute("map",  map);
+			session.setAttribute("map1",  map1);
+			request.setAttribute("map2",  map2);
+			context.setAttribute("map3",  map3);
 		}
 		else if (attribute.equals("remove")) {
-//			session.removeAttribute("map");
 			session.invalidate();
+			Collections.list(request.getAttributeNames())
+				.forEach(key -> request.removeAttribute(key));
+			Collections.list(context.getAttributeNames())
+				.forEach(key -> context.removeAttribute(key));
 		}
+
+		String delay = request.getParameter("delay");
+		if (delay == null) {
+			delay = "5";
+		}
+		request.setAttribute("delay", delay);
 
 		//フォワード先の指定
 		RequestDispatcher dispatcher =  request.getRequestDispatcher("/jsp/redirect.jsp");

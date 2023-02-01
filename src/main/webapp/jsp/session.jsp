@@ -10,9 +10,7 @@
 <%
 	ResourceBundle rb = ResourceBundle.getBundle("LocalStrings",request.getLocale());
 	String title = rb.getString("sessions.title");
-
-	@SuppressWarnings("unchecked")
-	Map<String, String> map = (Map<String,String>)session.getAttribute("map");
+	String cpath = getServletContext().getContextPath();
 %>
 
 <!DOCTYPE html>
@@ -31,10 +29,10 @@
 </head>
 <body bgcolor="white">
 
-<a href="/test/sessions.html">
-<img src="/test/images/code.gif" height=24 width=24 align=right border=0 alt="view code"></a>
-<a href="/test/index.html">
-<img src="/test/images/return.gif" height=24 width=24 align=right border=0 alt="return"></a>
+<a href="<%=cpath%>/sessions.html">
+<img src="<%=cpath%>/images/code.gif" height=24 width=24 align=right border=0 alt="view code"></a>
+<a href="<%=cpath%>/index.html">
+<img src="<%=cpath%>/images/return.gif" height=24 width=24 align=right border=0 alt="return"></a>
 
 <h3><%=title%></h3>
 
@@ -44,20 +42,21 @@
 <li><%=rb.getString("sessions.lastaccessed") + " " + new Date(session.getLastAccessedTime())%></li>
 </ul>
 
-<form action="<%=response.encodeURL("/test/session")%>" method="POST">
+<form action="<%=cpath + "/session"%>" method="POST">
 <P><%=rb.getString("sessions.data")%></P>
 
+<b>Sessions:</b>
 <table border=1>
 <tr>
 <td><%=rb.getString("sessions.delflag")%></td>
 <td><%=rb.getString("sessions.dataname")%></td>
 <td><%=rb.getString("sessions.datavalue")%></td>
 </tr>
-<c:forEach var="elm" items="${map}">
+<c:forEach var="e" items="${map1}">
 	<tr>
-	<td><input type="checkbox" name="DEL" value="${elm.key}"></input></td>
-	<td><c:out value="${elm.key}"/></td>
-	<td><c:out value="${elm.value}"/></td>
+	<td><input type="checkbox" name="DEL" value="${e.key}"></input></td>
+	<td><c:out value="${e.key}"/></td>
+	<td><c:out value="${e.value}"/></td>
 	</tr>
 </c:forEach>
 </table>
@@ -66,11 +65,11 @@
 <table>
 <tr>
 <td><%=rb.getString("sessions.dataname")%></td>
-<td><input type=text size=20 name="dataname"/></td>
+<td><input type="text" size="20" name="dataname"/></td>
 </tr>
 <tr>
 <td><%=rb.getString("sessions.datavalue")%></td>
-<td><input type=text size=20 name="datavalue"/></td>
+<td><input type="text" size="20" name="datavalue"/></td>
 </tr>
 </table>
 
@@ -79,7 +78,37 @@
 <input type="radio" name="attribute" value="remove"/>remove session<br/>
 <input type="radio" name="attribute" value="none" checked/>nop<br/>
 <p/>
+delay time:
+<input type="radio" name="delay" value="0"/>0
+<input type="radio" name="delay" value="5" checked/>5
+<input type="radio" name="delay" value="30"/>30
+<input type="radio" name="delay" value="60"/>60
+<p/>
 <input type="submit"/>
 </form>
+
+<b>Requests:</b>
+<table border=1>
+<tr><td>Key</td><td>Value</td></tr>
+<c:forEach var="e" items="${map2}">
+	<tr>
+	<td><c:out value="${e.key}"/></td>
+	<td><c:out value="${e.value}"/></td>
+	</tr>
+</c:forEach>
+</table>
+
+<br/>
+<b>Contexts:</b>
+<table border=1>
+<tr><td>Key</td><td>Value</td></tr>
+<c:forEach var="e" items="${map3}">
+	<tr>
+	<td><c:out value="${e.key}"/></td>
+	<td><c:out value="${e.value}"/></td>
+	</tr>
+</c:forEach>
+</table>
+
 </body>
 </html>

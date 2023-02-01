@@ -2,41 +2,33 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page import="java.util.*"%>
 <%@ page import="java.util.stream.*"%>
+<%@ page import="util.Attribute" %>
 
 <%
 	ServletContext context = request.getServletContext();
+	HttpSession session0 = request.getSession();
 	String url = context.getContextPath() + "/jsp/session.jsp";
 	String delay = request.getAttribute("delay") == null ? "5" : request.getAttribute("delay").toString();
 
-	HashMap<String, String> headers = new HashMap<>();
+	List<Attribute> headers = new ArrayList<>();
 	Collections.list(request.getHeaderNames())
-		.forEach(key -> 
-			headers.put(key, Collections.list(request.getHeaders(key)).stream()
-				.collect(Collectors.joining(","))));
+		.forEach(key -> headers.add(new Attribute(key, request.getHeaders(key))));
 
-	HashMap<String, String> params = new HashMap<>();
-	request.getParameterMap().keySet().stream()
-		.forEach(key -> 
-			params.put(key, String.join(",", request.getParameterValues(key)))
-		);
+	List<Attribute> params = new ArrayList<>();
+	Collections.list(request.getParameterNames())
+		.forEach(key -> params.add(new Attribute(key, request.getParameterValues(key))));
 
-	HashMap<String, String> sessions = new HashMap<>();
-	Collections.list(session.getAttributeNames())
-		.forEach(key ->
-			sessions.put(key, request.getSession().getAttribute(key).toString())
-		);
+	List<Attribute> sessions = new ArrayList<>();
+	Collections.list(session0.getAttributeNames())
+		.forEach(key -> sessions.add(new Attribute(key, session0.getAttribute(key))));
 
-	HashMap<String, String> contexts = new HashMap<>();
+	List<Attribute> contexts = new ArrayList<>();
 	Collections.list(context.getAttributeNames())
-		.forEach(key ->
-			contexts.put(key, context.getAttribute(key).toString())
-		);
+		.forEach(key -> contexts.add(new Attribute(key, context.getAttribute(key))));
 
-	HashMap<String, String> requests = new HashMap<>();
+	List<Attribute> requests = new ArrayList<>();
 	Collections.list(request.getAttributeNames())
-		.forEach(key ->
-			requests.put(key, request.getAttribute(key).toString())
-		);
+		.forEach(key -> requests.add(new Attribute(key, request.getAttribute(key))));
 %>
 
 <!DOCTYPE html>
@@ -52,8 +44,8 @@
 <table>
 <c:forEach var="e" items="<%=params%>">
 <tr>
-<td nowrap><c:out value="${e.key}"/></td>
-<td><c:out value="${e.value}"/></td>
+<td nowrap>${e.key}</td>
+<td>${e.value}</td>
 </tr>
 </c:forEach>
 </table>
@@ -62,8 +54,8 @@
 <table>
 <c:forEach var="e" items="<%=sessions%>">
 <tr>
-<td nowrap><c:out value="${e.key}"/></td>
-<td><c:out value="${e.value}"/></td>
+<td nowrap>${e.key}</td>
+<td>${e.value}</td>
 </tr>
 </c:forEach>
 </table>
@@ -72,8 +64,8 @@
 <table>
 <c:forEach var="e" items="<%=requests%>">
 <tr>
-<td nowrap><c:out value="${e.key}"/></td>
-<td><c:out value="${e.value}"/></td>
+<td nowrap>${e.key}</td>
+<td>${e.value}</td>
 </tr>
 </c:forEach>
 </table>
@@ -82,8 +74,8 @@
 <table>
 <c:forEach var="e" items="<%=contexts%>">
 <tr>
-<td nowrap><c:out value="${e.key}"/></td>
-<td><c:out value="${e.value}"/></td>
+<td nowrap>${e.key}</td>
+<td>${e.value}</td>
 </tr>
 </c:forEach>
 </table>
@@ -117,8 +109,18 @@
 <table>
 <c:forEach var="e" items="<%=headers%>">
 <tr>
-<td nowrap><c:out value="${e.key}"/></td>
-<td><c:out value="${e.value}"/></td>
+<td nowrap>${e.key}</td>
+<td>${e.value}</td>
+</tr>
+</c:forEach>
+</table>
+
+<h1>Cookies:</h1>
+<table>
+<c:forEach var="e" items="<%=request.getCookies()%>">
+<tr>
+<td nowrap>${e.name}</td>
+<td>${e.value}</td>
 </tr>
 </c:forEach>
 </table>

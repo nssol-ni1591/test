@@ -83,14 +83,15 @@ delay time:
 <input type="radio" name="delay" value="5" checked/>5
 <input type="radio" name="delay" value="30"/>30
 <input type="radio" name="delay" value="60"/>60
+<input type="radio" name="delay" value=""/>None
 <p/>
 <input type="submit"/>
 </form>
 
-<b>Requests:</b>
+<b>Contexts:</b>
 <table border=1>
 <tr><td>Key</td><td>Value</td></tr>
-<c:forEach var="e" items="${map2}">
+<c:forEach var="e" items="${map3}">
 	<tr>
 	<td><c:out value="${e.key}"/></td>
 	<td><c:out value="${e.value}"/></td>
@@ -99,10 +100,11 @@ delay time:
 </table>
 
 <br/>
-<b>Contexts:</b>
+
+<b>Requests:</b>
 <table border=1>
 <tr><td>Key</td><td>Value</td></tr>
-<c:forEach var="e" items="${map3}">
+<c:forEach var="e" items="${map2}">
 	<tr>
 	<td><c:out value="${e.key}"/></td>
 	<td><c:out value="${e.value}"/></td>

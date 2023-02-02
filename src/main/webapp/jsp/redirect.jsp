@@ -7,8 +7,12 @@
 <%
 	ServletContext context = request.getServletContext();
 	HttpSession session0 = request.getSession();
-	String url = context.getContextPath() + "/jsp/session.jsp";
-	String delay = request.getAttribute("delay") == null ? "5" : request.getAttribute("delay").toString();
+	String url = request.getAttribute("url") == null 
+		? context.getContextPath() + "/jsp/session.jsp"
+		: request.getAttribute("url");
+	String delay = request.getAttribute("delay") == null 
+		? "5" 
+		: request.getAttribute("delay").toString();
 
 	List<Attribute> headers = new ArrayList<>();
 	Collections.list(request.getHeaderNames())

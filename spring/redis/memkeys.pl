@@ -14,7 +14,7 @@ sub now() {
 	$hour = "0".$hour if $hour < 10;
 	$mday = "0".$mday if $mday < 10;
 	$mon = "0".$mon if $mon < 10;
-	return ($year + 1900)."-".$mon."-".$mday." ".$hour.":".$min.":".$sec;
+	return ($year + 1900)."-$mon-$mday $hour:$min:$sec";
 }
 sub error($) {
 	print now." [Error] $_[0]\n";
@@ -31,7 +31,7 @@ sub memkeys() {
 	open my $pipe, "kubectl exec $MASTER0 -- redis-cli --memkeys |";
 	while (<$pipe>) {
 		chomp;
-		
+
 		if (/^(\d+) (\w+) with (\d+) bytes \([\S ]+\)$/) {
 			my ($num, $type, $size) = ($1, $2, $3);
 			$map{$type} = $size;

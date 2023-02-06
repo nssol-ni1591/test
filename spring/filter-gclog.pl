@@ -112,7 +112,7 @@ sub main {
 			++$line;
 		}
 # 609395714     16 -rw-rw-r--   1  java     java        12874 12月 22 15:40 ./spring-ptl/log/spring-ptl-598d4d7d9-rr7nq_gc.log
-		elsif (/ \.\/spring\-[\w\-]+\/log\/(spring\-\w+([\w\-]+)?)\-(\w+)\-(\w+)_gc.log$/) {
+		elsif (/ \S+\/spring\-[\w\-]+\/log\/(spring\-\w+([\w\-]+)?)\-(\w+)\-(\w+)_gc.log$/) {
 			($pod, $pod_id, $pod_id2) = ($1, $3, $4);
 #			print "Pod: pod=[$pod] pod_id=[$pod_id] pod_id2=[$pod_id2]\n";
 			++$file;
@@ -123,5 +123,6 @@ sub main {
 	}
 	print "Statistics: line=[$line] file=[$file]\n"
 }
+
 main;
 1;

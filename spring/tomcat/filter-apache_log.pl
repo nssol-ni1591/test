@@ -7,14 +7,12 @@ my %HASH = ();
 
 sub now {
 	my ($sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst) = localtime;
-	
-	# localtime関数からは1900年から数えた年が返却される。
-	$year += 1900;
-
-	# 月は0から始まるので、表示するときは1を加える。
-	$mon++;
-
-	return "$year-$mon-$mday $hour:$min:$sec";
+	$sec = "0".$sec if $sec < 10;
+	$min = "0".$min if ++$min < 10;
+	$hour = "0".$hour if $hour < 10;
+	$mday = "0".$mday if $mday < 10;
+	$mon = "0".$mon if $mon < 10;
+	return ($year + 1900)."-$mon-$mday $hour:$min:$sec";
 }
 
 sub error {

@@ -3,8 +3,6 @@
 use warnings;
 use strict;
 
-my %HASH = ();
-
 sub now {
 	my ($sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst) = localtime;
 	$sec = "0".$sec if $sec < 10;
@@ -27,7 +25,8 @@ sub warning {
 	}
 }
 
-my @TYPES = ('day', 'time', 'lists', 'hashs', 'strings', 'streams', 'sets', 'zsets');
+my @INFO_KEYS = ("connected_clients", "used_memory", "used_memory_rss_human", "used_memory_peak_human");
+my @TYPES = ('day', 'time', 'lists', 'hashs', 'strings', 'streams', 'sets', 'zsets', @INFO_KEYS);
 
 sub out {
 	my ($map) = @_;
@@ -38,12 +37,32 @@ sub out {
 
 sub main {
 	my %map = ();
+	my $info_flag = 0;
+
 	print "".(join "\t", (@TYPES))."\n";
 
 	while (<STDIN>) {
 		chomp;
 
-		if (/^(\d+) (\w+) with (\d+) bytes \([\S ]+\)$/) {
+		if ($info_flag) {
+			s/\r//g;
+
+			if (/^INFO: end$/) {
+				$info_flag = 0;
+			}
+			elsif (/^(\w+):([\S ]+)$/) {
+				my ($key, $val) = ($1, $2);
+				if (grep { $_ eq $key } @INFO_KEYS) {
+					$val =~ s/M$//g if ($key =~ /^used_memory/);
+					$map{$key} = $val;
+				}
+			}
+			elsif (/^$/ or /^#/) {}
+			else {
+				error "nomatch pattern in INFO [$_]";
+			}
+		}
+		elsif (/^(\d+) (\w+) with (\d+) bytes \([\S ]+\)$/) {
 			my ($num, $type, $size) = ($1, $2, $3);
 			$map{$type} = $size;
 		}
@@ -56,10 +75,14 @@ sub main {
 			$map{day} = $day;
 			$map{time} = $time;
 		}
+		elsif (/^INFO: start$/) {
+			$info_flag = 1;
+		}
 		else {
-#			error "nomatch pattern [$_]";
+#			error "nomatch pattern in main [$_]";
 		}
 	}
+	out \%map if %map;
 }
 
 main;

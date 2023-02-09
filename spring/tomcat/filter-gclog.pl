@@ -75,8 +75,8 @@ sub main {
 			($day_day, $day_time, $day_elaps) = $day =~ /^([\d\-]+)T([\d\:]+)\.\d+\+0900: ([\d\.]+):$/;
 #			my ($young_start, $young_end, $young_size) = $young =~ /(\d+K)\->(\d+K)\((\d+K)\)/;
 #			my ($old_start, $old_end, $old_size) = $old =~ /(\d+K)\->(\d+K)\((\d+K)\)/;
-			($heap_start, $heap_end, $heap_size) = $heap =~ /(\d+K)\->(\d+K)\((\d+K)\)/;
-			($meta_start, $meta_end, $meta_size) = $meta =~ /(\d+K)\->(\d+K)\((\d+K)\)/;
+			($heap_start, $heap_end, $heap_size) = $heap =~ /(\d+)K\->(\d+)K\((\d+)K\)/;
+			($meta_start, $meta_end, $meta_size) = $meta =~ /(\d+)K\->(\d+)K\((\d+)K\)/;
 			($times_user, $times_sys, $times_real) = $times =~ /user=([\d. ]+) sys=([\d. ]+), real=([\d. ]+)/;
 
 #			print "$day, $wraps, $type, $young, $old, $heap, $meta, $meta_tm, $times\n";
@@ -97,8 +97,8 @@ sub main {
 			my ($day, $type, $tenured, $tenured_tm, $heap, $meta, $meta_tm, $times) = ($1, $2, $3, $4, $5, $6, $7, $8);
 			$gc_type = $type;
 			($day_day, $day_time, $day_elaps) = $day =~ /^([\d\-]+)T([\d\:]+)\.\d+\+0900: ([\d\.]+):$/;
-			($heap_start, $heap_end, $heap_size) = $heap =~ /(\d+K)\->(\d+K)\((\d+K)\)/;
-			($meta_start, $meta_end, $meta_size) = $meta =~ /(\d+K)\->(\d+K)\((\d+K)\)/;
+			($heap_start, $heap_end, $heap_size) = $heap =~ /(\d+)K\->(\d+)K\((\d+)K\)/;
+			($meta_start, $meta_end, $meta_size) = $meta =~ /(\d+)K\->(\d+)K\((\d+)K\)/;
 			($times_user, $times_sys, $times_real) = $times =~ /user=([\d. ]+) sys=([\d. ]+), real=([\d. ]+)/;
 
 #			print "Log: day=[$day_day] time=[$day_time] elaps=[$day_elaps]\n";

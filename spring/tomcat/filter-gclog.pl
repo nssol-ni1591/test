@@ -28,6 +28,8 @@ sub warning {
 }
 
 my ($pod, $pod_id, $pod_id2);
+my ($heap_min, $heap_max);
+
 my $gc_type;
 my ($day_day, $day_time, $day_elaps);
 my ($heap_start, $heap_end, $heap_size);
@@ -48,7 +50,7 @@ sub out {
 #	print "  Metaspace: start=[$meta_start] end=[$meta_end] size=[$meta_size]\n";
 #	print "  Times: user=[$times_user] sys=[$times_sys] real=[$times_real]\n";
 
-	print "$pod,$pod_id,$pod_id2,$gc_type,$day_day,$day_time,$day_elaps,$heap_start,$heap_end,$heap_size,$meta_start,$meta_end,$meta_size,$times_user,$times_sys,$times_real\n";
+	print "$pod,$pod_id,$pod_id2,".($heap_min/1024).",".($heap_max/1024).",$gc_type,$day_day,$day_time,$day_elaps,$heap_start,$heap_end,$heap_size,$meta_start,$meta_end,$meta_size,$times_user,$times_sys,$times_real\n";
 
 	$gc_type = "";
 	($day_day, $day_time, $day_elaps) = ("", "", "");
@@ -61,7 +63,7 @@ sub main {
 	my $line = 0;
 	my $file = 0;
 
-	print "pod,pod_id,pod_id2,gc_type,day_day,day_time,day_elaps,heap_start,heap_end,heap_size,meta_start,meta_end,meta_size,times_user,times_sys,times_real\n";
+	print "pod,pod_id,pod_id2,heap_min,heap_max,gc_type,day_day,day_time,day_elaps,heap_start,heap_end,heap_size,meta_start,meta_end,meta_size,times_user,times_sys,times_real\n";
 
 	while (<STDIN>) {
 		chomp;
@@ -69,7 +71,7 @@ sub main {
 # 2022-12-20T18:56:56.674+0900: 2.049: [Full GC (Ergonomics) [PSYoungGen: 7138K->5353K(137728K)] [ParOldGen: 27053K->26860K(48128K)] 34191K->32214K(185856K), [Metaspace: 15630K->15630K(1062912K)], 0.0742182 secs] [Times: user=0.18 sys=0.00, real=0.08 secs]
 		if (/^([\d\-\.\+:T ]+) \[Full GC \(([\w ]+)\) \[PSYoungGen: ([\dK\->\(\) ]+)\] \[ParOldGen: ([\dK\->\(\) ]+)\] ([\w:\->\(\) ]+), \[Metaspace: ([\dK\->\(\) ]+)\], ([\d\.]+) secs\] \[Times: ([\w:\.=, ]+) secs\].$/) {
 #			my @array = ($1, $2, $3, $4, $5, $6, $7, $8, $9);
-#			print join(",", @array). "\n";
+#			print STDERR join(",", @array). "\n";
 			my ($day, $type, $young, $old, $heap, $meta, $meta_tm, $times) = ($1, $2, $3, $4, $5, $6, $7, $8);
 			$gc_type = $type;
 			($day_day, $day_time, $day_elaps) = $day =~ /^([\d\-]+)T([\d\:]+)\.\d+\+0900: ([\d\.]+):$/;
@@ -79,13 +81,13 @@ sub main {
 			($meta_start, $meta_end, $meta_size) = $meta =~ /(\d+)K\->(\d+)K\((\d+)K\)/;
 			($times_user, $times_sys, $times_real) = $times =~ /user=([\d. ]+) sys=([\d. ]+), real=([\d. ]+)/;
 
-#			print "$day, $wraps, $type, $young, $old, $heap, $meta, $meta_tm, $times\n";
-#			print "Log: day=[$day_day] time=[$day_time] elaps=[$day_elaps]\n";
-#			print "YoungGen: start=[$young_start] end=[$young_end] size=[$young_size]\n";
-#			print "ParOldGen: start=[$old_start] end=[$old_end] size=[$old_size]\n";
-#			print "Heap: start=[$heap_start] end=[$heap_end] size=[$heap_size]\n";
-#			print "Metaspace: start=[$meta_start] end=[$meta_end] size=[$meta_size]\n";
-#			print "Times: user=[$times_user] sys=[$times_sys] real=[$times_real]\n";
+#			print STDERR "$day, $wraps, $type, $young, $old, $heap, $meta, $meta_tm, $times\n";
+#			print STDERR "Log: day=[$day_day] time=[$day_time] elaps=[$day_elaps]\n";
+#			print STDERR "YoungGen: start=[$young_start] end=[$young_end] size=[$young_size]\n";
+#			print STDERR "ParOldGen: start=[$old_start] end=[$old_end] size=[$old_size]\n";
+#			print STDERR "Heap: start=[$heap_start] end=[$heap_end] size=[$heap_size]\n";
+#			print STDERR "Metaspace: start=[$meta_start] end=[$meta_end] size=[$meta_size]\n";
+#			print STDERR "Times: user=[$times_user] sys=[$times_sys] real=[$times_real]\n";
 
 			out;
 			++$line;
@@ -101,10 +103,10 @@ sub main {
 			($meta_start, $meta_end, $meta_size) = $meta =~ /(\d+)K\->(\d+)K\((\d+)K\)/;
 			($times_user, $times_sys, $times_real) = $times =~ /user=([\d. ]+) sys=([\d. ]+), real=([\d. ]+)/;
 
-#			print "Log: day=[$day_day] time=[$day_time] elaps=[$day_elaps]\n";
-#			print "Heap: start=[$heap_start] end=[$heap_end] size=[$heap_size]\n";
-#			print "Metaspace: start=[$meta_start] end=[$meta_end] size=[$meta_size]\n";
-#			print "Times: user=[$times_user] sys=[$times_sys] real=[$times_real]\n";
+#			print STDERR "Log: day=[$day_day] time=[$day_time] elaps=[$day_elaps]\n";
+#			print STDERR "Heap: start=[$heap_start] end=[$heap_end] size=[$heap_size]\n";
+#			print STDERR "Metaspace: start=[$meta_start] end=[$meta_end] size=[$meta_size]\n";
+#			print STDERR "Times: user=[$times_user] sys=[$times_sys] real=[$times_real]\n";
 
 			out;
 			++$line;
@@ -112,14 +114,18 @@ sub main {
 # 609395714     16 -rw-rw-r--   1  java     java        12874 12月 22 15:40 ./spring-ptl/log/spring-ptl-598d4d7d9-rr7nq_gc.log
 		elsif (/ \S+\/spring\-[\w\-]+\/log\/(spring\-\w+([\w\-]+)?)\-(\w+)\-(\w+)_gc.log$/) {
 			($pod, $pod_id, $pod_id2) = ($1, $3, $4);
-#			print "Pod: pod=[$pod] pod_id=[$pod_id] pod_id2=[$pod_id2]\n";
+#			print STDERR "Pod: pod=[$pod] pod_id=[$pod_id] pod_id2=[$pod_id2]\n";
 			++$file;
 		}
-		else {
-			error "nomatch pattern [$_]";
+		elsif (/^CommandLine flags: [\S ]+ \-XX:InitialHeapSize=(\d+) \-XX:MaxHeapSize=(\d+)/) {
+			($heap_min, $heap_max) = ($1, $2);
+#			print STDERR "Heap: heap_min=[$heap_min] heap_max=[$heap_max]\n";
 		}
+#		else {
+#			error "nomatch pattern [$_]";
+#		}
 	}
-	print "Statistics: line=[$line] file=[$file]\n"
+	print STDERR "Statistics: line=[$line] file=[$file]\n"
 }
 
 main;

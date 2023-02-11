@@ -7,23 +7,27 @@ my %HASH = ();
 
 sub now {
 	my ($sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst) = localtime;
-	$sec = "0".$sec if $sec < 10;
-	$min = "0".$min if ++$min < 10;
+	$sec  = "0".$sec  if $sec < 10;
+	$min  = "0".$min  if ++$min < 10;
 	$hour = "0".$hour if $hour < 10;
 	$mday = "0".$mday if $mday < 10;
-	$mon = "0".$mon if $mon < 10;
+	$mon  = "0".$mon  if $mon < 10;
 	return ($year + 1900)."-$mon-$mday $hour:$min:$sec";
 }
 
 sub error {
+	my $header = ::now." [Error]";
 	for my $msg (@_) {
-		print STDERR ::now." [Error] $msg\n";
+		print "$header $msg\n";
+		$header = "\t";
 	}
 	exit 1;
 }
 sub warning {
+	my $header = ::now." [Warning]";
 	for my $msg (@_) {
-		print STDERR ::now." [Warning] $msg\n";
+		print "$header $msg\n";
+		$header = "\t";
 	}
 }
 
@@ -34,7 +38,7 @@ sub main {
 	#172.29.133.23 - - [13/Jun/2022:07:06:33 +0900] "GET /nci_wf_app_ns_purchase/js/outside/11/3_BWFAjax.js HTTP/1.1" 200 3350
 		if (/^([\d\.]+) - - \[([\S ]+)\] "([\S ]+)" (\S+) (\S+)$/) {
 			my ($ip, $date, $url, $st, $len) = ($1, $2, $3, $4, $5);
-	#		print "ip=[$ip] date=[$date] url=[$url]\n";
+#			print "ip=[$ip] date=[$date] url=[$url]\n";
 
 			next if ($st != 200);
 #			print "url=[$url]\n";
@@ -42,7 +46,7 @@ sub main {
 #			if ($url =~ /^(\w+) ([\w\/\.\-\(%\)]+|\*)(\?\S+)? ([\S]+)$/) {
 			if ($url =~ /^(\w+) ([^\s\?;]+|\*)((\?|;)\S*)? ([\S]+)$/) {
 				my ($method, $path, $http) = ($1, $2, $5);
-	#			print "method=[$method] path=[$path] http=[$http]\n";
+#				print "method=[$method] path=[$path] http=[$http]\n";
 
 				next if ($method eq "OPTIONS");
 				next if ($path =~ /^\/commonservices\/weblogic_chk\.html/);
@@ -88,4 +92,4 @@ sub main {
 }
 
 ::main;
-0;
+1;

@@ -4,47 +4,38 @@
 #cp -p /export2/containers/spring-redis-single-0/it-3/data/memdump-*.dat redis/it-3
 #find /export2/containers/ -name *_gc.log -mtime -1 -size +100M -exec cp -p {} gc/ \;
 
-copy_redis() {
-	path=$1
-	name=`basename $path`
-	it=`echo $path | sed -e 's/^.*\/\(it\-.\)\/.*$/\1/g'`
-	if [ ! -f redis/${it}/${name} ] ; then
-		cp -p $path redis/${it}/
-		echo copy [$path] to [${it}]
+copy() {
+	src=$1
+	des=$2
+
+	if [ ! -d ${des} ]; then
+		echo
+		echo "Error: ${des} not found"
+		exit 1
+	fi
+
+	name=`basename ${src}`
+	if [ ! -f ${des}/${name} ] ; then
+		cp -p ${src} ${des}
+		echo copy [${src}] to [${des}]
 		return
 	fi
 
-	src_size=`ls -l $path | awk '{ print $5 }'`
-	des_size=`ls -l redis/${it}/${name} | awk '{ print $5 }'`
-	if [ $src_size -ne $des_size ]; then
-		cp -p $path redis/${it}/
-		echo overwrite [$path] to [${it}]
+	src_size=`ls -l ${src} | awk '{ print $5 }'`
+	des_size=`ls -l ${des}/${name} | awk '{ print $5 }'`
+	if [ ${src_size} -ne ${des_size} ]; then
+		cp -p ${src} ${des}
+		echo overwrite [${src}] to [${des}]
 	else
-		echo skip [$path]
-	fi
-}
-copy_gc() {
-	path=$1
-	name=`basename $path`
-	if [ ! -f gc/${name} ] ; then
-		cp -p $path gc
-		echo copy [$path] to [gc]
-		return
-	fi
-
-	src_size=`ls -l $path | awk '{ print $5 }'`
-	des_size=`ls -l gc/${name} | awk '{ print $5 }'`
-	if [ $src_size -ne $des_size ]; then
-		cp -p $path gc
-		echo overwrite [$path] to [gc]
-	else
-		echo skip [$path]
+		echo skip [${src}]
 	fi
 }
 
 for file in `find /export2/containers/spring-redis-single-0 -name memdump-*.dat`; do
-	copy_redis ${file}
+	it=`echo ${file} | sed -e 's/^.*\/\(it\-.\)\/.*$/\1/g'`
+	copy ${file} redis/${it}/
 done
 for file in `find /export2/containers/ -name *_gc.log -size +100M`; do
-	copy_gc ${file}
+	copy ${file} gc/
 done
+exit 0

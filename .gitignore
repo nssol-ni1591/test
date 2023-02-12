@@ -9,3 +9,5 @@
 /.gradle
 /utils/
 /jodconverter-sample-*/
+/tmp/
+/spring/

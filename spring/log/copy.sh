@@ -35,6 +35,6 @@ for file in `find /export2/containers/spring-redis-single-0 -name 'memdump-*.dat
 	copy ${file} csv/${it} "cat ${file} | perl memdump.pl"
 done
 for file in `find /export2/containers/ -name '*_gc.log' -size +10M`; do
-	copy ${file} csv/tomcat "echo ${file} | perl gclog.pl"
+	copy ${file} csv/gc "echo ${file} | perl gclog.pl"
 done
 exit 0

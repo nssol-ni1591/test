@@ -1,12 +1,9 @@
 #!/bin/sh
-#cp -p /export2/containers/spring-redis-single-0/it-1/data/memdump-*.dat redis/it-1
-#cp -p /export2/containers/spring-redis-single-0/it-2/data/memdump-*.dat redis/it-2
-#cp -p /export2/containers/spring-redis-single-0/it-3/data/memdump-*.dat redis/it-3
-#find /export2/containers/ -name *_gc.log -mtime -1 -size +100M -exec cp -p {} gc/ \;
 
 copy() {
 	src=$1
 	des=$2
+	cmd=$3
 
 	if [ ! -d ${des} ]; then
 		echo
@@ -15,27 +12,29 @@ copy() {
 	fi
 
 	name=`basename ${src}`
-	if [ ! -f ${des}/${name} ] ; then
-		cp -p ${src} ${des}
-		echo copy [${src}] to [${des}]
+	csv=`echo ${name} | sed -r 's/\.log|\.dat/\.csv/g'`
+	if [ ! -f ${des}/${csv} ] ; then
+		eval "${cmd}" >${des}/${csv}
+		echo create [${src}] to [${des}]
 		return
 	fi
 
-	src_size=`ls -l ${src} | awk '{ print $5 }'`
-	des_size=`ls -l ${des}/${name} | awk '{ print $5 }'`
-	if [ ${src_size} -ne ${des_size} ]; then
-		cp -p ${src} ${des}
-		echo overwrite [${src}] to [${des}]
+	src_time=`ls -l --time-style='+%Y%m%d%H%M%S' ${src} | awk '{ print $6 }'`
+	des_time=`ls -l --time-style='+%Y%m%d%H%M%S' ${des}/${csv} | awk '{ print $6 }'`
+	if [ ${src_time} -gt ${des_time} ]; then
+		eval "${cmd}" >${des}/${csv}
+		echo update [${src}] to [${des}]
 	else
-		echo skip [${src}]
+		echo skiped [${src}]
 	fi
 }
 
-for file in `find /export2/containers/spring-redis-single-0 -name memdump-*.dat`; do
+[ ! -d csv ] && echo "Error: csv not found" && exit 1
+for file in `find /export2/containers/spring-redis-single-0 -name 'memdump-*.dat'`; do
 	it=`echo ${file} | sed -e 's/^.*\/\(it\-.\)\/.*$/\1/g'`
-	copy ${file} redis/${it}/
+	copy ${file} csv/${it} "cat ${file} | perl memdump.pl"
 done
-for file in `find /export2/containers/ -name *_gc.log -size +100M`; do
-	copy ${file} gc/
+for file in `find /export2/containers/ -name '*_gc.log' -size +10M`; do
+	copy ${file} csv/tomcat "echo ${file} | perl gclog.pl"
 done
 exit 0

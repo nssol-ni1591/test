@@ -32,7 +32,8 @@ sub out {
 	my ($map) = @_;
 	my @values = ();
 	push @values, $map->{$_} foreach (@TYPES);
-	print "".(join "\t", @values)."\n";
+#	print "".(join "\t", @values)."\n";
+	print "".(join ",", @values)."\n";
 }
 
 sub main {

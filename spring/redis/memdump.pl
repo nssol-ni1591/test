@@ -25,7 +25,8 @@ sub warning {
 	}
 }
 
-my @INFO_KEYS = ("connected_clients", "used_memory", "used_memory_rss_human", "used_memory_peak_human");
+#my @INFO_KEYS = ("connected_clients", "used_memory", "used_memory_human", "used_memory_rss_human", "used_memory_peak_human");
+my @INFO_KEYS = ("connected_clients", "used_memory", "used_memory_rss", "used_memory_peak");
 my @TYPES = ('day', 'time', 'lists', 'hashs', 'strings', 'streams', 'sets', 'zsets', @INFO_KEYS);
 
 sub out {

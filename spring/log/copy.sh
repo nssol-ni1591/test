@@ -12,7 +12,7 @@ copy() {
 	fi
 
 	name=`basename ${src}`
-	csv=`echo ${name} | sed -r 's/\.log|\.dat/\.csv/g'`
+	csv=`echo ${name} | sed -r 's/\.log$|\.dat$/.csv/g'`
 	if [ ! -f ${des}/${csv} ] ; then
 		eval "${cmd}" >${des}/${csv}
 		echo create [${src}] to [${des}]

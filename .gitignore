@@ -1,9 +1,9 @@
 .gitattributes
-/.settings
+/**/.settings
 /.classpath
 /.project
-/bin/
-/build/
+/**/bin/
+/**/build/
 /js/A
 /js/B
 /.gradle
@@ -11,3 +11,4 @@
 /jodconverter-sample-*/
 /spring/
 /tmp/
+/**/*.class

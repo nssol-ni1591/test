@@ -8,3 +8,5 @@
  */
 
 rootProject.name = 'test'
+include('session')
+include('ftp')

@@ -9,7 +9,7 @@
 	HttpSession session0 = request.getSession();
 	String url = request.getAttribute("url") == null 
 		? context.getContextPath() + "/jsp/session.jsp"
-		: request.getAttribute("url");
+		: request.getAttribute("url").toString();
 	String delay = request.getAttribute("delay") == null 
 		? "5" 
 		: request.getAttribute("delay").toString();

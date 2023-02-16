@@ -12,6 +12,10 @@
 /**/.gradle/
 /**/build/
 /**/*.bin
-/bin/
+/**/bin/
 /tmp/
 /spring/tomcat/gc/
+/jodconverter-sample-client/
+/jodconverter-sample-webapp/
+/session/
+/ftp/

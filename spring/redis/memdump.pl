@@ -26,7 +26,7 @@ sub warning {
 }
 
 #my @INFO_KEYS = ("connected_clients", "used_memory", "used_memory_human", "used_memory_rss_human", "used_memory_peak_human");
-my @INFO_KEYS = ("connected_clients", "used_memory", "used_memory_rss", "used_memory_peak");
+my @INFO_KEYS = ("connected_clients", "used_memory", "used_memory_rss", "used_memory_peak", "used_memory_human", "used_memory_rss_human", "used_memory_peak_human");
 my @TYPES = ('day', 'time', 'lists', 'hashs', 'strings', 'streams', 'sets', 'zsets', @INFO_KEYS);
 
 sub out {
@@ -41,7 +41,8 @@ sub main {
 	my %map = ();
 	my $info_flag = 0;
 
-	print "".(join "\t", (@TYPES))."\n";
+	print "".(join ",", (@TYPES))."\n";
+#	print "".(join "\t", (@TYPES))."\n";
 
 	while (<STDIN>) {
 		chomp;

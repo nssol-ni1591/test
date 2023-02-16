@@ -12,6 +12,11 @@ import java.util.Arrays;
 public class FtpMain {
 
 	private FTPClient cli;
+	private int rep;
+
+	public int getReplyCode() {
+		return rep;
+	}
 
 	// コンストラクタ
 	public FtpMain() {
@@ -20,21 +25,16 @@ public class FtpMain {
 
 	// 接続
 	public void connect(String host) throws IOException {
-		System.out.print("start: connect\r\n");
+		System.out.println("start: connect host=[" + host + "]");
 		cli.connect(host);
-		System.out.print("end: connect\r\n");
+		System.out.println("end: connect");
 	}
 
 	// ログイン
 	public void login(String user, String pass) throws IOException {
-		System.out.print("start: login\r\n");
+		System.out.println("start: login user=[" + user + "] pass=[" + pass + "]");
 		cli.login(user, pass);
-
-		int rep = cli.getReplyCode();
-		if (!FTPReply.isPositiveCompletion(rep)) {
-			throw new IOException("ReplyCode: " + rep);
-		}
-		System.out.print("end: login\r\n");
+		System.out.println("end: login");
 	}
 
 	// ダウンロード
@@ -42,15 +42,15 @@ public class FtpMain {
 		FileOutputStream outputstream;
 		boolean isRetrieve;
 
-		System.out.print("start: downLoad\r\n");
+		System.out.println("start: downLoad");
 		try {
 			outputstream = new FileOutputStream("download.txt");
 			isRetrieve = cli.retrieveFile("download.txt", outputstream);
 			outputstream.close();
 			if (!isRetrieve) {
-				System.out.print("error: downLoad\r\n");
+				System.out.println("error: downLoad");
 			}
-			System.out.print("end: downLoad\r\n");
+			System.out.println("end: downLoad");
 			return;
 		} catch (IOException ie) {
 			return;
@@ -62,38 +62,54 @@ public class FtpMain {
 		FileInputStream inputstream;
 		boolean isStore;
 
-		System.out.print("start: upLoad\r\n");
+		System.out.println("start: upLoad");
 		try {
 			inputstream = new FileInputStream("upload.txt");
 			isStore = cli.storeFile("upload.txt", inputstream);
 			inputstream.close();
 			if (!isStore) {
-				System.out.print("error: upLoad\r\n");
+				System.out.println("error: upLoad");
 			}
-			System.out.print("end: upLoad\r\n");
+			System.out.println("end: upLoad");
 			return;
 		} catch (IOException ie) {
 			return;
 		}
 	}
 	
+	public void setPassive() throws IOException {
+		System.out.println("start: setPassive");
+		cli.enterLocalPassiveMode();
+//		cli.pasv();
+		System.out.println("end: setPassive");
+	}
 	public String[] listNames(String path) throws IOException {
+		System.out.println("start: listNames path=[" + path + "]");
+		String[] names;
 		if (path == null) {
-			return cli.listNames();			
+			names = cli.listNames();			
 		}
-		return cli.listNames(path);
+		else {
+			names = cli.listNames(path);
+		}
+		if (names == null) {
+			System.out.println("\tlistNames: ReplyCode=" + cli.getReplyCode());
+		}
+		System.out.println("end: listNames names=[" + names + "]");
+		return names;
 	}
 
 	// 切断
 	public void disconnect() throws IOException {
-		System.out.print("start: disConnect\r\n");
+		System.out.println("start: disConnect");
 		cli.disconnect();
-		System.out.print("end: disConnect\r\n");
+		System.out.println("end: disConnect");
 	}
 
 	public static void main(String[] args) {
 
-		if (args.length >=3 || args.length <= 4) {
+		if (args.length < 3 || args.length > 4) {
+			System.out.println("Error: args=[" + args.length + "]");
 			System.out.println("Usage: java ftp.FtpMain host user pass [path]");
 			System.exit(1);
 		}
@@ -102,18 +118,29 @@ public class FtpMain {
 		String pass = args[2];
 		String path = args.length <= 3 ? null : args[3];
 
+		FtpMain ftp = new FtpMain();
 		try {
-			FtpMain ftp = new FtpMain();
 			ftp.connect(host);;
 			ftp.login(user, pass);
-			Arrays.stream(ftp.listNames(path)).forEach(System.out::print);
-			ftp.disconnect();
+			ftp.setPassive();
+//			Arrays.stream(ftp.listNames(path))
+//				.map(name -> "\t" + name)
+//				.forEach(System.out::println);
+			System.out.println(">>> names=[" + String.join(",", ftp.listNames(path)) + "]");
 		}
 		catch (SocketException e) {
+			System.out.println("catch SocketException: ReplyCode=" + ftp.getReplyCode());
 			e.printStackTrace();
 		}
 		catch (IOException e) {
+			System.out.println("catch IOException: ReplyCode=" + ftp.getReplyCode());
 			e.printStackTrace();
+		}
+		finally {
+			try {
+				ftp.disconnect();
+			}
+			catch (IOException e) { }
 		}
 		System.exit(0);
 	}

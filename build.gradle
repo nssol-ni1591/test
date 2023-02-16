@@ -8,8 +8,10 @@
 
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
-    id 'application'
+    //id 'application'
     id 'war'
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '7+' // 追加
 }
 
 war {
@@ -18,6 +20,12 @@ war {
         into('WEB-INF/classes')
     }
 }
+jar {
+    manifest {
+        attributes "Main-Class": "ftp.FtpMain"
+    }
+}
+
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
@@ -33,18 +41,21 @@ dependencies {
     // Dependency on local binaries
 //    compileOnly fileTree(dir: 'c:/opt/apache-tomcat-10.0.27/lib', include: ['*.jar'])
     compileOnly fileTree(dir: 'c:/opt/apache-tomcat-9.0.68/lib', include: ['*.jar'])
-    
+
+    // https://mvnrepository.com/artifact/commons-net/commons-net
+    implementation group: 'commons-net', name: 'commons-net', version: '3.6'
 }
 
-application {
+//application {
     // Define the main class for the application.
-    mainClass = 'test_gradle.App'
-}
+    //mainClass = 'test_gradle.App'
+//    mainClass = 'ftp.FtpMain'
+//}
 
-tasks.named('test') {
+//tasks.named('test') {
     // Use JUnit Platform for unit tests.
-    useJUnitPlatform()
-}
+//    useJUnitPlatform()
+//}
 
 compileJava.options.encoding = 'UTF-8'
 compileTestJava.options.encoding = 'UTF-8'

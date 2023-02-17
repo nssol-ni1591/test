@@ -8,6 +8,5 @@
  */
 
 rootProject.name = 'test'
-//include('app')
-include('jodconverter-sample-webapp')
-include('jodconverter-sample-client')
+include('spring:jodconverter:jodconverter-sample-client')
+include('spring:jodconverter:jodconverter-sample-webapp')

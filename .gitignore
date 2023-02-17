@@ -18,3 +18,7 @@
 /jodconverter-sample-client/
 /jodconverter-sample-webapp/
 /gradle*
+/tmp/
+/ftp/
+/session/
+/spring/

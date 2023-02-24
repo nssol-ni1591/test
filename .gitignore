@@ -1,0 +1,13 @@
+/.classpath
+/.gitattributes
+/.project
+/.gradle/
+/.settings/
+/**/bin/
+/**/build/
+/ftp/
+/session/
+/spring/
+/src/
+/tmp/
+/utils/

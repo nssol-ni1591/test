@@ -3,7 +3,7 @@
 use warnings;
 use strict;
 
-my %HASH = ();
+my $OPT_1 = 0;
 
 sub now {
 	my ($sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst) = localtime;
@@ -45,6 +45,9 @@ my ($old_start, $old_end, $old_size);
 #my ($defnew_start, $defnew_end, $defnew_size);
 #my ($tenured_start, $tenured_end, $tenured_size);
 
+my ($prev_type, $prev_reason) = ();
+my ($count, $c_gc, $c_fullgc);
+
 sub init {
 #	($gc_type, $gc_reason) = ("", "");
 #	($day_day, $day_time, $day_elaps) = ("", "", "");
@@ -56,19 +59,24 @@ sub init {
 	($old_start, $old_end, $old_size)  = ("", "", "");
 #	($defnew_start, $defnew_end, $defnew_size) = ("", "", "");
 #	($tenured_start, $tenured_end, $tenured_size) = ("", "", "");
+	$count = 0;
 }
 
-my ($prev_type, $prev_reason) = ();
-my $line;
-
 sub print_gclog {
-	print "$pod,$pod_id,$pod_id2,".($heap_min/1024).",".($heap_max/1024).",$gc_type,$gc_reason,$day_day,$day_time,$day_elaps,$young_start,$young_end,$young_size,$old_start,$old_end,$old_size,$heap_start,$heap_end,$heap_size,$meta_start,$meta_end,$meta_size,$times_user,$times_sys,$times_real\n";
-	++$line;
+	print "$pod,$pod_id,$pod_id2,".($heap_min/1024).",".($heap_max/1024).",$gc_type,$gc_reason,$day_day,$day_time,$day_elaps,$young_start,$young_end,$young_size,$old_start,$old_end,$old_size,$heap_start,$heap_end,$heap_size,$meta_start,$meta_end,$meta_size,$times_user,$times_sys,$times_real,$count\n";
 	init;
 }
 
 sub out_gclog {
 	my ($type, $reason, $day, $young, $old, $heap, $meta, $times) = @_;
+
+	++$count;
+	if ($type eq "GC") {
+		++$c_gc;
+	}
+	elsif ($type eq "Full GC") {
+		++$c_fullgc;
+	}
 
 	if (!$type and !$reason) {
 		print_gclog;
@@ -98,16 +106,16 @@ sub out_gclog {
 
 sub parse {
 	my ($file) = @_;
+	($c_gc, $c_fullgc) = (0, 0);
 
 	init;
 	open my $in, $file or die "open: $file $!";
 
-	$line = 0;
-	print "pod,pod_id,pod_id2,heap_min,heap_max,gc_type,gc_reason,day_day,day_time,day_elaps,young_start,young_end,young_size,old_start,old_end,old_size,heap_start,heap_end,heap_size,meta_start,meta_end,meta_size,times_user,times_sys,times_real\n";
+	print "pod,pod_id,pod_id2,heap_min,heap_max,gc_type,gc_reason,day_day,day_time,day_elaps,young_start,young_end,young_size,old_start,old_end,old_size,heap_start,heap_end,heap_size,meta_start,meta_end,meta_size,times_user,times_sys,times_real\n" if (!$OPT_1);
 	while (<$in>) {
 		chomp;
 #--------------------------------
-# 2023-02-06T15:30:58.568+0900: 0.180: [_____GC (Allocation Failure)___ 2023-02-06T15:30:58.568+0900: 0.180: [DefNew_: _4992K->__575K(_5568K), 0.0041667 secs] _4992K->_1515K(17856K), ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^0.0042324 secs] [Times: user=0.01 sys=0.00, real=0.00 secs] 
+# 2023-02-06T15:30:58.568+0900: 0.180: [_____GC (Allocation Failure___) 2023-02-06T15:30:58.568+0900: 0.180: [DefNew_: _4992K->__575K(_5568K), 0.0041667 secs] _4992K->_1515K(17856K), ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^0.0042324 secs] [Times: user=0.01 sys=0.00, real=0.00 secs] 
 # 2023-02-22T12:58:14.472+0900: 1.787: [Full GC (Metadata GC Threshold) 2023-02-22T12:58:14.472+0900: 1.787: [Tenured: 11047K->10467K(12288K), 0.0312261 secs] 14923K->10467K(17856K), [Metaspace: 20670K->20670K(1069056K)], 0.0313958 secs] [Times: user=0.03 sys=0.00, real=0.04 secs]
 		if (/^([\d\-\.\+:T ]+) \[([\w ]+) \(([\w ]+)\) [\d\-\.:T]+\+0900: [\d\.]+: (\[DefNew: ([\dK\->\(\) ]+), ([\d\.]+) secs\] )?(\[Tenured: ([\dK\->\(\) ]+), ([\d\.]+) secs\] )?([\dK\->\(\) ]+), (\[Metaspace: ([\dK\->\(\) ]+\]), )?([\d\.]+) secs\] \[Times: ([\w:\.=, ]+) secs\] $/) {
 			my ($day, $type, $reason, $defnew, $defnew_tm, $tenured, $tenured_tm, $heap, $meta, $heap_tm, $times) = ($1, $2, $3, $5, $6, $8, $9, $10, $12, $13, $14);
@@ -134,13 +142,13 @@ sub parse {
 			error "nomatch pattern in parse [$_]";
 		}
 	}
-	close $in;
-
 	out_gclog;
-	print STDERR "  Statistics: line=[$line] file=[$file]\n";
+	close $in;
+	print STDERR "  Statistics: file=[$file] GC=[$c_gc] FullGC=[$c_fullgc]\n";
 }
 
 sub main {
+	print "pod,pod_id,pod_id2,heap_min,heap_max,gc_type,gc_reason,day_day,day_time,day_elaps,young_start,young_end,young_size,old_start,old_end,old_size,heap_start,heap_end,heap_size,meta_start,meta_end,meta_size,times_user,times_sys,times_real,count\n" if ($OPT_1);
 	while (<STDIN>) {
 		chomp;
 # 609395714     16 -rw-rw-r--   1  java     java        12874 12月 22 15:40 ./spring-ptl/log/spring-ptl-598d4d7d9-rr7nq_gc.log
@@ -155,5 +163,8 @@ sub main {
 	}
 }
 
+foreach (@ARGV) {
+	$OPT_1 = 1 if ($_ eq "-1");
+}
 main;
 1;

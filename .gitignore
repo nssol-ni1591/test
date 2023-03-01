@@ -11,6 +11,7 @@
 /**/*.jar
 /**/*.pdf
 /**/*.war
+/**/.settings/
 /**/bin/
 /**/build/
 /ftp/

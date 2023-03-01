@@ -29,7 +29,10 @@ copy() {
 	fi
 }
 
-[ ! -d csv ] && echo "Error: csv not found" && exit 1
+for dir in csv csv/gc csv/it-1 csv/it-2 csv/it-3; do
+	[ ! -d ${dir} ] && mkdir ${dir}
+done
+
 for file in `find /export2/containers/spring-redis-single-0 -name 'memdump-*.dat'`; do
 	it=`echo ${file} | sed -e 's/^.*\/\(it\-.\)\/.*$/\1/g'`
 	copy ${file} csv/${it} "cat ${file} | perl memdump.pl"

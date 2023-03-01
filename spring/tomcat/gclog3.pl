@@ -4,6 +4,9 @@ use warnings;
 use strict;
 
 my $OPT_1 = 0;
+my $HEADER ="pod,pod_id,pod_id2,heap_min,heap_max,gc_type,gc_reason,day_day,day_time,day_elaps,young_start,young_end,young_size,old_start,old_end,old_size,heap_start,heap_end,heap_size,meta_start,meta_end,meta_size,times_user,times_sys,times_real,count\n";
+
+my ($pod, $pod_id, $pod_id2);
 
 sub now {
 	my ($sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst) = localtime;
@@ -16,22 +19,21 @@ sub now {
 }
 
 sub error {
-	my $header = ::now." [Error]";
+	my $header = ::now." [".$pod."-".$pod_id."-".$pod_id2."] [Error]";
 	for my $msg (@_) {
-		print "$header $msg\n";
+		print STDERR "$header $msg\n";
 		$header = "\t";
 	}
 	exit 1;
 }
 sub warning {
-	my $header = ::now." [Warning]";
+	my $header = ::now." [".$pod."-".$pod_id."-".$pod_id2."] [Warning]";
 	for my $msg (@_) {
-		print "$header $msg\n";
+		print STDERR "$header $msg\n";
 		$header = "\t";
 	}
 }
 
-my ($pod, $pod_id, $pod_id2);
 my ($heap_min, $heap_max);
 
 my ($gc_type, $gc_reason);
@@ -71,12 +73,8 @@ sub out_gclog {
 	my ($type, $reason, $day, $young, $old, $heap, $meta, $times) = @_;
 
 	++$count;
-	if ($type eq "GC") {
-		++$c_gc;
-	}
-	elsif ($type eq "Full GC") {
-		++$c_fullgc;
-	}
+	++$c_gc if ($prev_type and $prev_type eq "GC");
+	++$c_fullgc if ($prev_reason and $prev_type eq "Full GC");
 
 	if (!$type and !$reason) {
 		print_gclog;
@@ -94,6 +92,7 @@ sub out_gclog {
 		print_gclog;
 		($prev_type, $prev_reason) = ($type, $reason);
 	}
+
 	$gc_type   = $type;
 	$gc_reason = $reason;
 	($day_day    , $day_time , $day_elaps ) = $day   =~ /^([\d\-]+)T([\d\:]+)\.\d+\+0900: ([\d\.]+):$/;
@@ -111,7 +110,7 @@ sub parse {
 	init;
 	open my $in, $file or die "open: $file $!";
 
-	print "pod,pod_id,pod_id2,heap_min,heap_max,gc_type,gc_reason,day_day,day_time,day_elaps,young_start,young_end,young_size,old_start,old_end,old_size,heap_start,heap_end,heap_size,meta_start,meta_end,meta_size,times_user,times_sys,times_real\n" if (!$OPT_1);
+	print $HEADER if (!$OPT_1);
 	while (<$in>) {
 		chomp;
 #--------------------------------
@@ -139,7 +138,7 @@ sub parse {
 		}
 		elsif (/^OpenJDK|^Memory/) { }
 		else {
-			error "nomatch pattern in parse [$_]";
+			warning "nomatch pattern in parse [$_]";
 		}
 	}
 	out_gclog;
@@ -148,7 +147,7 @@ sub parse {
 }
 
 sub main {
-	print "pod,pod_id,pod_id2,heap_min,heap_max,gc_type,gc_reason,day_day,day_time,day_elaps,young_start,young_end,young_size,old_start,old_end,old_size,heap_start,heap_end,heap_size,meta_start,meta_end,meta_size,times_user,times_sys,times_real,count\n" if ($OPT_1);
+	print $HEADER if ($OPT_1);
 	while (<STDIN>) {
 		chomp;
 # 609395714     16 -rw-rw-r--   1  java     java        12874 12月 22 15:40 ./spring-ptl/log/spring-ptl-598d4d7d9-rr7nq_gc.log

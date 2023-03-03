@@ -10,3 +10,5 @@
 rootProject.name = 'test'
 include('spring:jodconverter:jodconverter-sample-client')
 include('spring:jodconverter:jodconverter-sample-webapp')
+include('spring:svf:client')
+include('spring:svf:webapp')

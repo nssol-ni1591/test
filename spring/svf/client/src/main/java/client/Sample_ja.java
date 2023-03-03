@@ -3,8 +3,8 @@
  * SVF for Excel
  * Sample Program
  */
+package client;
 
-//import jp.co.fit.vfreport.Vrw32;
 import java.io.*;
 import jp.co.fit.vfreport.SvfrClient;
 

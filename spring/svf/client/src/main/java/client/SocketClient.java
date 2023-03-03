@@ -1,12 +1,14 @@
+package client;
+
 import java.net.*;
 import java.net.http.*;
 
 /**
  * ソケット通信(クライアント側)
  */
-class SocketClient {
+public class SocketClient {
 
-	String run() throws Exception {
+	public String run() throws Exception {
 
 		//HTTPクライアント生成
 		HttpClient client = HttpClient.newHttpClient();

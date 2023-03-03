@@ -1,0 +1,28 @@
+plugins {
+	id 'war'
+}
+
+group = 'svf.webapp'
+description = 'SVF Client - Sample Web Application'
+
+java {
+	sourceCompatibility = JavaVersion.VERSION_11	// 1_8
+	targetCompatibility = JavaVersion.VERSION_11	// 1_8
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation project(":spring:svf:client")
+//	implementation project(":svf:client")
+//	implementation project(":client")
+
+	compileOnly group: 'org.apache.tomcat', name: 'tomcat-servlet-api', version: '9.0.68'
+}
+
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
+
+//war.archiveName = 'lool.war'

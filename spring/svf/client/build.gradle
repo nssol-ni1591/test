@@ -1,0 +1,32 @@
+plugins {
+	id 'com.github.johnrengelman.shadow' version '7.1.2'
+	id 'application'
+}
+
+group = 'svf.client'
+description = 'SVF Client - Sample Client Application'
+
+application {
+	mainClass = 'client.Sample_ja'
+//	applicationDefaultJvmArgs = [ '-Dfile.encoding=UTF-8' ]
+}
+
+java {
+	sourceCompatibility = JavaVersion.VERSION_11
+	targetCompatibility = JavaVersion.VERSION_11
+}
+
+//repositories {
+//	mavenCentral()
+//}
+
+dependencies {
+//	implementation(fileTree(dir: 'libs', include: ['sample.jar']))
+	implementation files('lib/svfrclient.jar')
+
+//	compileOnly "javax.servlet:javax.servlet-api"
+//	compileOnly group: 'org.apache.tomcat', name: 'tomcat-servlet-api', version: '10.0.27'
+}
+
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'

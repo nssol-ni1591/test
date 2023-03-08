@@ -18,14 +18,13 @@ sub error {
 }
 
 sub find_master {
-#       $MASTER0=`kubectl get pods | grep spring-redis-cluster | awk '{print \$1}' | head -1`;
-        $MASTER0=`kubectl get pods | grep spring-redis-cluster | grep '1/1' | awk '{print \$1}' | head -1`;
-        $MASTER0="spring-redis-cluster0-0" if !${MASTER0};
+        $MASTER0=`kubectl get pods | grep redis-cluster | grep '1/1' | awk '{print \$1}' | head -1`;
+        error "Not found in find_master" if !${MASTER0};
         chomp $MASTER0;
 }
 
 sub pods {
-        open my $pipe, "kubectl get pods -o wide | grep spring-redis-cluster |";
+        open my $pipe, "kubectl get pods -o wide | grep redis-cluster |";
         while (<$pipe>) {
                 chomp;
                 if (/^([\w\-]+)\s+([\d\/]+)\s+(\w+)\s+\d+\s+(\w+)\s+([\d\.]+|<none>)\s+([\w\-\.]+)\s+[\w<>]+$/) {

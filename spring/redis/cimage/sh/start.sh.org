@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# 起動ログ出力
+echo `date "+%Y/%m/%d-%H:%M:%S"` start redis.
+
+# 変数設定
+TODAY=`date +%Y%m%d`
+echo "PORT=${REDIS_PORT} CLUSTER=${REDIS_CLUSTER} TODAY=${TODAY}"
+
+# 設定ファイルの生成
+cat <<EOF >/opt/redis/etc/redis.conf
+#### NETWORK
+bind 0.0.0.0
+port ${REDIS_PORT}
+timeout 0
+
+#### GENERAL
+#daemonize no
+pidfile /var/run/redis-server.pid
+loglevel notice
+logfile /var/log/redis/redis-server_${TODAY}.log
+
+#### SNAPSHOTTING
+rdbcompression yes
+dbfilename dump.rdb
+dir /data
+
+#### CLIENTS
+maxclients 100
+
+#### MEMORY MANAGEMENT
+maxmemory 1gb
+maxmemory-policy volatile-ttl
+
+#### APPEND ONLY MODE
+appendonly no
+appendfilename "appendonly.aof"
+appendfsync everysec
+
+#### REDIS CLUSTER
+cluster-enabled ${REDIS_CLUSTER}
+cluster-config-file nodes-6379.conf
+cluster-node-timeout 15000
+EOF
+
+# Redis起動
+/opt/redis/bin/redis-server /opt/redis/etc/redis.conf
+
+# 停止ログ出力
+echo `date "+%Y/%m/%d-%H:%M:%S"` shutdown redis.
+

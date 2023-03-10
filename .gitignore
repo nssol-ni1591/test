@@ -8,7 +8,6 @@
 /**/*.bin
 /**/*.exe
 /**/*.class
-/**/*.jar
 /**/*.pdf
 /**/*.war
 /**/.settings/

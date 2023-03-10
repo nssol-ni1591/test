@@ -38,6 +38,8 @@ dependencies {
 
 //	compileOnly "javax.servlet:javax.servlet-api"
 	compileOnly group: 'org.apache.tomcat', name: 'tomcat-servlet-api', version: '10.0.27'
+	// https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-servlet-api
+	compileOnly group: 'org.apache.tomcat', name: 'tomcat-servlet-api', version: '9.0.73'
 
 //	runtimeOnly "org.slf4j:slf4j-log4j12"
 
@@ -53,6 +55,7 @@ dependencies {
 
 //	tomcat "org.apache.tomcat.embed:tomcat-embed-core"
 //	tomcat "org.apache.tomcat.embed:tomcat-embed-jasper"
+
 }
 
 //tomcat {

@@ -1,9 +1,18 @@
 #!/bin/sh
+
+# 課題：
+# kubectl get pods に対象のpodが存在しない場合
+# そのpodが定義されていないのか、それとも、単に起動していないのか区別が難しい
+
+function exists() {
+#	kubectl get pods | grep $1 >/dev/null ; return $?
+	return `kubectl get pods | grep $1 | wc -l`
+}
+
 NUM=$1
 [ "$NUM" = "" ] && NUM=1
-kubectl scale statefulset.v1.apps/spring-redis-master0 --replicas=${NUM}
-kubectl scale statefulset.v1.apps/spring-redis-master1 --replicas=${NUM}
-kubectl scale statefulset.v1.apps/spring-redis-master2 --replicas=${NUM}
-kubectl scale statefulset.v1.apps/spring-redis-slave0 --replicas=${NUM}
-kubectl scale statefulset.v1.apps/spring-redis-slave1 --replicas=${NUM}
-kubectl scale statefulset.v1.apps/spring-redis-slave2 --replicas=${NUM}
+for name in master0 master1 master2 slave0 slave1 slave2; do
+	pod="spring-redis-${name}"
+#	exists $pod && kubectl scale statefulset.v1.apps/${pod} --replicas=${NUM}
+	[ `exists $pod` -ne $NUM ] && kubectl scale statefulset.v1.apps/${pod} --replicas=${NUM}
+done

@@ -7,4 +7,3 @@ else
 	kubectl scale statefulset.v1.apps/spring-redis-single   --replicas=$NUM
 	kubectl scale statefulset.v1.apps/spring-redis-sentinel --replicas=$NUM
 fi
-

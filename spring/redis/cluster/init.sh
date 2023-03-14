@@ -1,6 +1,6 @@
 #!/bin/sh
 
-MASTER0=`kubectl get pods | grep redis-cluster | awk '{print $1}' | head -1`
+MASTER0=`kubectl get pods | grep redis-cluster | grep '1/1' | awk '{print \$1}' | head -1`
 
 echo "--- master ---"
 

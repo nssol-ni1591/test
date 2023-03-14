@@ -1,11 +1,30 @@
-cluster.pl
-- Redisクラスタの実行状態を整形して出力する
+Redis関係ファイルs
 
-Dump.java
-dump.properties
-- シリアライズ例外の発生クラスを見つけるためのツール
-- dump.propertiesにはgetter命名ルールで変数を取得できない場合、
-変数を取得するためのアクセスメソッドを指定する
+- スクリプトs
 
-memkeys.pl
-- Redisのメモリ使用量を取得するためのツール
+	- keys.sh
+	- memdump.pl
+	- memdump.sh
+	- memkeys.pl
+		- Redisのメモリ使用量を取得するためのツール
+	- nodes.sh
+	- pods.sh
+
+- cluster/
+	クラスタ構成
+
+	- cluster.pl
+		- Redisクラスタの実行状態を整形して出力する
+
+- master/
+	マスター・スレーブ構成
+
+
+- sentinel/
+	センチネル構成
+
+
+- single/
+	シングル（+スレーブ）構成
+
+

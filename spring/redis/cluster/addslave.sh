@@ -1,8 +1,5 @@
 #!/bin/sh
 
-TYPE=cluster
-#TYPE=master
-
 if [ "$1" = "" -o "$2" = "" ]; then
 	echo "usage addslave.sh <slave container> <master container>"
 	exit 1

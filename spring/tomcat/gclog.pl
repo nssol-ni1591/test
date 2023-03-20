@@ -2,6 +2,7 @@
 
 use warnings;
 use strict;
+#use feature 'state'; # state を使う場合に必要
 
 my $OPT_1 = 0;
 my $HEADER ="pod,pod_id,pod_id2,heap_min,heap_max,gc_type,gc_reason,day_day,day_time,day_elaps,young_start,young_end,young_size,old_start,old_end,old_size,heap_start,heap_end,heap_size,meta_start,meta_end,meta_size,times_user,times_sys,times_real,count\n";
@@ -47,8 +48,8 @@ my ($old_start, $old_end, $old_size);
 #my ($defnew_start, $defnew_end, $defnew_size);
 #my ($tenured_start, $tenured_end, $tenured_size);
 
-my ($prev_type, $prev_reason) = ();
-my ($count, $c_gc, $c_fullgc);
+my ($prev_type, $prev_reason, $force_print); # = ();
+my ($count, $c_gc, $c_fullgc); # = (0, 0, 0);
 
 sub init {
 #	($gc_type, $gc_reason) = ("", "");
@@ -83,14 +84,22 @@ sub out_gclog {
 
 	if (!$prev_type and !$prev_reason) {
 		($prev_type, $prev_reason) = ($type, $reason);
+		$force_print = 1;
 	}
 	elsif ($type ne $prev_type or $reason ne $prev_reason) {
 		print_gclog;
 		($prev_type, $prev_reason) = ($type, $reason);
+		$force_print = 2;
 	}
 	elsif ($prev_type eq "Full GC") {
 		print_gclog;
 		($prev_type, $prev_reason) = ($type, $reason);
+		$force_print = 2;
+	}
+	elsif ($force_print) {
+		$count = 1 if ($force_print == 1);
+		print_gclog;
+		$force_print = 0;
 	}
 
 	$gc_type   = $type;
@@ -105,7 +114,8 @@ sub out_gclog {
 
 sub parse {
 	my ($file) = @_;
-	($c_gc, $c_fullgc) = (0, 0);
+	($count, $c_gc, $c_fullgc) = (0, 0, 0);
+	($prev_type, $prev_reason, $force_print) = (undef, undef, 0);
 
 	init;
 	open my $in, $file or die "open: $file $!";

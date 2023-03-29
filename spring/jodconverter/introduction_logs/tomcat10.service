@@ -1,0 +1,16 @@
+[Unit]
+Description=Apache Tomcat 10.0.27 for OpenOffice G/W
+ConditionPathExists=/opt/apache-tomcat-10.0.27
+
+[Service]
+User=tomcat
+Group=ap-users
+Type=oneshot
+
+ExecStart=/opt/apache-tomcat-10.0.27/bin/startup.sh
+ExecStop=/opt/apache-tomcat-10.0.27/bin/shutdown.sh
+Restart=no
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

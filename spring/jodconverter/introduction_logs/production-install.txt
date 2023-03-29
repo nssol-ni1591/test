@@ -1,0 +1,303 @@
+
+[root@spsvf01 ~]# tail /etc/group
+rpc:x:32:
+rpcuser:x:29:
+clevis:x:985:
+named:x:25:
+apache:x:48:
+jp1-users:x:2100:
+sys-users:x:1000:
+postdrop:x:90:
+postfix:x:89:
+ap-users:x:2300:
+[root@spsvf01 ~]# tail /etc/passwd
+rpc:x:32:32:Rpcbind Daemon:/var/lib/rpcbind:/sbin/nologin
+rpcuser:x:29:29:RPC Service User:/var/lib/nfs:/sbin/nologin
+clevis:x:989:985:Clevis Decryption Framework unprivileged user:/var/cache/clevis:/sbin/nologin
+named:x:25:25:Named:/var/named:/bin/false
+apache:x:48:48:Apache:/usr/share/httpd:/sbin/nologin
+ajsjob:x:2100:2100::/home/ajsjob:/bin/bash
+postfix:x:89:89::/var/spool/postfix:/sbin/nologin
+apuser:x:3000:2300::/home/apuser:/bin/bash
+tomcat:x:3002:2300::/home/tomcat:/bin/bash
+svf:x:3001:2300::/home/svf:/bin/bash
+[root@spsvf01 ~]# cd /opt/
+[root@spsvf01 opt]# cd /home/tomcat/
+[root@spsvf01 tomcat]# tar xvzf openoffice.tar.gz
+Apache_OpenOffice_4.1.13_Linux_x86-64_install-rpm_ja.tar.gz
+OpenJDK8U-jdk_x64_linux_hotspot_8u352b08.tar.gz
+apache-tomcat-10.0.27.tar.gz
+ipa-gothic-fonts-003.03-5.el7.noarch.rpm
+ipa-mincho-fonts-003.03-5.el7.noarch.rpm
+ipa-pgothic-fonts-003.03-5.el7.noarch.rpm
+ipa-pmincho-fonts-003.03-5.el7.noarch.rpm
+lool.war
+openoffice/
+openoffice/ja/
+openoffice/ja/RPMS/
+openoffice/ja/RPMS/openoffice-brand-base-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/openoffice-images-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/openoffice-math-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/openoffice-ooofonts-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/openoffice-core01-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/openoffice-ja-base-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/desktop-integration/
+openoffice/ja/RPMS/desktop-integration/openoffice4.1.13-freedesktop-menus-4.1.13-9810.noarch.rpm
+openoffice/ja/RPMS/desktop-integration/openoffice4.1.13-suse-menus-4.1.13-9810.noarch.rpm
+openoffice/ja/RPMS/desktop-integration/openoffice4.1.13-redhat-menus-4.1.13-9810.noarch.rpm
+openoffice/ja/RPMS/desktop-integration/openoffice4.1.13-mandriva-menus-4.1.13-9810.noarch.rpm
+openoffice/ja/RPMS/openoffice-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/openoffice-ja-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/openoffice-ja-math-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/openoffice-core06-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/openoffice-ja-help-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/openoffice-ooolinguistic-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/openoffice-brand-draw-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/openoffice-brand-ja-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/openoffice-writer-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/openoffice-brand-math-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/openoffice-calc-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/openoffice-base-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/openoffice-ogltrans-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/openoffice-brand-impress-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/openoffice-ja-draw-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/openoffice-graphicfilter-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/openoffice-core07-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/openoffice-javafilter-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/openoffice-ure-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/openoffice-core02-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/openoffice-ja-impress-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/openoffice-ja-res-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/openoffice-impress-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/openoffice-onlineupdate-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/openoffice-xsltfilter-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/openoffice-draw-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/openoffice-brand-calc-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/openoffice-ja-writer-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/openoffice-core04-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/openoffice-core05-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/openoffice-ja-calc-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/openoffice-core03-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/openoffice-pyuno-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/openoffice-brand-writer-4.1.13-9810.x86_64.rpm
+openoffice/ja/RPMS/openoffice-gnome-integration-4.1.13-9810.x86_64.rpm.not_used
+openoffice/ja/licenses/
+openoffice/ja/licenses/LICENSE
+openoffice/ja/licenses/NOTICE
+openoffice/ja/readmes/
+openoffice/ja/readmes/README_ja.html
+openoffice/ja/readmes/README_ja
+tomcat10
+
+[root@spsvf01 tomcat]# cd
+[root@spsvf01 ~]# cd /opt/
+[root@spsvf01 opt]# tar xzf /home/tomcat/OpenJDK8U-jdk_x64_linux_hotspot_8u352b08.tar.gz
+[root@spsvf01 opt]# ln -s jdk8u352-b08 jdk-1.8
+[root@spsvf01 opt]# tar xzf /home/tomcat/apache-tomcat-10.0.27.tar.gz
+[root@spsvf01 opt]# chown -R tomcat:ap-users apache-tomcat-10.0.27
+[root@spsvf01 opt]# ls -l
+合計 4
+dr-xr-xr-x.  4 bin    bin        28  6月  7  2019 CM2
+drwxr-xr-x   3 root   root       17  2月 14 11:11 InfraScripts
+dr-xr-xr-x.  5 bin    bin        53 11月  2  2021 OV
+drwxrwxrwx  10 root   root      258  3月 22 11:57 SVFJP
+drwxr-xr-x   9 tomcat ap-users  220  3月 29 12:00 apache-tomcat-10.0.27
+drwxrwxr-x  14 root   root     4096  3月 21 14:25 ds_agent
+drwxr-xr-x.  5 root   root       46  2月  1 13:47 hitachi
+lrwxrwxrwx   1 root   root       12  3月 29 12:00 jdk-1.8 -> jdk8u352-b08
+drwxr-xr-x   8 root   root      190 10月 20 17:37 jdk8u352-b08
+dr-xr-xr-x.  3 root   root       23  2月  1 13:47 jp1
+drwxrwxrwx.  3 root   root       17  2月  1 13:48 jp1_ima
+drwxr-xr-x.  7 root   root       90 11月 22  2021 jp1ajs2
+drwxr-xr-x. 10 root   sys       125  2月  1 13:48 jp1base
+[root@spsvf01 opt]# cd /home/tomcat/openoffice/ja/RPMS/
+[root@spsvf01 RPMS]# ls
+desktop-integration                                           openoffice-images-4.1.13-9810.x86_64.rpm
+openoffice-4.1.13-9810.x86_64.rpm                             openoffice-impress-4.1.13-9810.x86_64.rpm
+openoffice-base-4.1.13-9810.x86_64.rpm                        openoffice-ja-4.1.13-9810.x86_64.rpm
+openoffice-brand-base-4.1.13-9810.x86_64.rpm                  openoffice-ja-base-4.1.13-9810.x86_64.rpm
+openoffice-brand-calc-4.1.13-9810.x86_64.rpm                  openoffice-ja-calc-4.1.13-9810.x86_64.rpm
+openoffice-brand-draw-4.1.13-9810.x86_64.rpm                  openoffice-ja-draw-4.1.13-9810.x86_64.rpm
+openoffice-brand-impress-4.1.13-9810.x86_64.rpm               openoffice-ja-help-4.1.13-9810.x86_64.rpm
+openoffice-brand-ja-4.1.13-9810.x86_64.rpm                    openoffice-ja-impress-4.1.13-9810.x86_64.rpm
+openoffice-brand-math-4.1.13-9810.x86_64.rpm                  openoffice-ja-math-4.1.13-9810.x86_64.rpm
+openoffice-brand-writer-4.1.13-9810.x86_64.rpm                openoffice-ja-res-4.1.13-9810.x86_64.rpm
+openoffice-calc-4.1.13-9810.x86_64.rpm                        openoffice-ja-writer-4.1.13-9810.x86_64.rpm
+openoffice-core01-4.1.13-9810.x86_64.rpm                      openoffice-javafilter-4.1.13-9810.x86_64.rpm
+openoffice-core02-4.1.13-9810.x86_64.rpm                      openoffice-math-4.1.13-9810.x86_64.rpm
+openoffice-core03-4.1.13-9810.x86_64.rpm                      openoffice-ogltrans-4.1.13-9810.x86_64.rpm
+openoffice-core04-4.1.13-9810.x86_64.rpm                      openoffice-onlineupdate-4.1.13-9810.x86_64.rpm
+openoffice-core05-4.1.13-9810.x86_64.rpm                      openoffice-ooofonts-4.1.13-9810.x86_64.rpm
+openoffice-core06-4.1.13-9810.x86_64.rpm                      openoffice-ooolinguistic-4.1.13-9810.x86_64.rpm
+openoffice-core07-4.1.13-9810.x86_64.rpm                      openoffice-pyuno-4.1.13-9810.x86_64.rpm
+openoffice-draw-4.1.13-9810.x86_64.rpm                        openoffice-ure-4.1.13-9810.x86_64.rpm
+openoffice-gnome-integration-4.1.13-9810.x86_64.rpm.not_used  openoffice-writer-4.1.13-9810.x86_64.rpm
+openoffice-graphicfilter-4.1.13-9810.x86_64.rpm               openoffice-xsltfilter-4.1.13-9810.x86_64.rpm
+[root@spsvf01 RPMS]# rpm -ihv *.rpm
+Verifying...                          ################################# [100%]
+準備しています...              ################################# [100%]
+更新中 / インストール中...
+   1:openoffice-ure-4.1.13-9810       ################################# [  3%]
+   2:openoffice-core01-4.1.13-9810    ################################# [  5%]
+   3:openoffice-ja-4.1.13-9810        ################################# [  8%]
+   4:openoffice-impress-4.1.13-9810   ################################# [ 10%]
+   5:openoffice-ja-base-4.1.13-9810   ################################# [ 13%]
+   6:openoffice-ja-calc-4.1.13-9810   ################################# [ 15%]
+   7:openoffice-ja-draw-4.1.13-9810   ################################# [ 18%]
+   8:openoffice-ja-help-4.1.13-9810   ################################# [ 20%]
+   9:openoffice-ja-impress-4.1.13-9810################################# [ 23%]
+  10:openoffice-ja-math-4.1.13-9810   ################################# [ 25%]
+  11:openoffice-ja-res-4.1.13-9810    ################################# [ 28%]
+  12:openoffice-ja-writer-4.1.13-9810 ################################# [ 30%]
+  13:openoffice-base-4.1.13-9810      ################################# [ 33%]
+  14:openoffice-calc-4.1.13-9810      ################################# [ 35%]
+  15:openoffice-core02-4.1.13-9810    ################################# [ 38%]
+  16:openoffice-core03-4.1.13-9810    ################################# [ 40%]
+  17:openoffice-core04-4.1.13-9810    ################################# [ 43%]
+  18:openoffice-core05-4.1.13-9810    ################################# [ 45%]
+  19:openoffice-core06-4.1.13-9810    ################################# [ 48%]
+  20:openoffice-core07-4.1.13-9810    ################################# [ 50%]
+  21:openoffice-draw-4.1.13-9810      ################################# [ 52%]
+  22:openoffice-images-4.1.13-9810    ################################# [ 55%]
+  23:openoffice-4.1.13-9810           ################################# [ 58%]
+  24:openoffice-math-4.1.13-9810      ################################# [ 60%]
+  25:openoffice-writer-4.1.13-9810    ################################# [ 63%]
+  26:openoffice-brand-writer-4.1.13-98################################# [ 65%]
+  27:openoffice-brand-math-4.1.13-9810################################# [ 68%]
+  28:openoffice-brand-base-4.1.13-9810################################# [ 70%]
+  29:openoffice-brand-calc-4.1.13-9810################################# [ 73%]
+  30:openoffice-brand-draw-4.1.13-9810################################# [ 75%]
+  31:openoffice-brand-impress-4.1.13-9################################# [ 78%]
+  32:openoffice-brand-ja-4.1.13-9810  ################################# [ 80%]
+  33:openoffice-ogltrans-4.1.13-9810  ################################# [ 83%]
+  34:openoffice-graphicfilter-4.1.13-9################################# [ 85%]
+  35:openoffice-javafilter-4.1.13-9810################################# [ 88%]
+  36:openoffice-onlineupdate-4.1.13-98################################# [ 90%]
+  37:openoffice-ooofonts-4.1.13-9810  ################################# [ 93%]
+  38:openoffice-ooolinguistic-4.1.13-9################################# [ 95%]
+  39:openoffice-pyuno-4.1.13-9810     ################################# [ 98%]
+  40:openoffice-xsltfilter-4.1.13-9810################################# [100%]
+[root@spsvf01 RPMS]# cd desktop-integration
+[root@spsvf01 desktop-integration]# rpm -ihv openoffice4.1.13-redhat-menus-4.1.13-9810.noarch.rpm
+Verifying...                          ################################# [100%]
+準備しています...              ################################# [100%]
+更新中 / インストール中...
+   1:openoffice4.1.13-redhat-menus-4.1################################# [100%]
+[root@spsvf01 desktop-integration]# cd /opt/
+[root@spsvf01 opt]# cd
+[root@spsvf01 ~]# yum install libICE libSM
+メタデータの期限切れの最終確認: 2:31:37 時間前の 2023年03月29日 09時35分00秒 に実施しました。
+依存関係が解決しました。
+======================================================================================================================================================
+ パッケージ             アーキテクチャー       バージョン                     リポジトリー                                                      サイズ
+======================================================================================================================================================
+インストール:
+ libICE                 x86_64                 1.0.9-15.el8                   spring-rhui-rhel-8-for-x86_64-appstream-rhui-rpms                  74 k
+ libSM                  x86_64                 1.2.3-1.el8                    spring-rhui-rhel-8-for-x86_64-appstream-rhui-rpms                  48 k
+
+トランザクションの概要
+======================================================================================================================================================
+インストール  2 パッケージ
+
+ダウンロードサイズの合計: 121 k
+インストール後のサイズ: 282 k
+これでよろしいですか? [y/N]: y
+パッケージのダウンロード:
+(1/2): libSM-1.2.3-1.el8.x86_64.rpm                                                                                   5.5 MB/s |  48 kB     00:00
+(2/2): libICE-1.0.9-15.el8.x86_64.rpm                                                                                 5.6 MB/s |  74 kB     00:00
+------------------------------------------------------------------------------------------------------------------------------------------------------
+合計                                                                                                                  8.5 MB/s | 121 kB     00:00
+トランザクションの確認を実行中
+トランザクションの確認に成功しました。
+トランザクションのテストを実行中
+トランザクションのテストに成功しました。
+トランザクションを実行中
+  準備             :                                                                                                                              1/1
+  インストール中   : libICE-1.0.9-15.el8.x86_64                                                                                                   1/2
+  インストール中   : libSM-1.2.3-1.el8.x86_64                                                                                                     2/2
+  scriptletの実行中: libSM-1.2.3-1.el8.x86_64                                                                                                     2/2
+  検証             : libICE-1.0.9-15.el8.x86_64                                                                                                   1/2
+  検証             : libSM-1.2.3-1.el8.x86_64                                                                                                     2/2
+インストール済みの製品が更新されています。
+
+インストール済み:
+  libICE-1.0.9-15.el8.x86_64                                                 libSM-1.2.3-1.el8.x86_64
+
+完了しました!
+[root@spsvf01 ~]# cd /home/tomcat/
+[root@spsvf01 tomcat]# ls
+Apache_OpenOffice_4.1.13_Linux_x86-64_install-rpm_ja.tar.gz  ipa-mincho-fonts-003.03-5.el7.noarch.rpm   openoffice
+OpenJDK8U-jdk_x64_linux_hotspot_8u352b08.tar.gz              ipa-pgothic-fonts-003.03-5.el7.noarch.rpm  openoffice.tar.gz
+apache-tomcat-10.0.27.tar.gz                                 ipa-pmincho-fonts-003.03-5.el7.noarch.rpm  tomcat10
+ipa-gothic-fonts-003.03-5.el7.noarch.rpm                     lool.war
+[root@spsvf01 tomcat]# rpm -ihv ipa-gothic-fonts-003.03-5.el7.noarch.rpm
+警告: ipa-gothic-fonts-003.03-5.el7.noarch.rpm: ヘッダー V3 RSA/SHA256 Signature、鍵 ID f4a80eb5: NOKEY
+Verifying...                          ################################# [100%]
+準備しています...              ################################# [100%]
+更新中 / インストール中...
+   1:ipa-gothic-fonts-003.03-5.el7    ################################# [100%]
+[root@spsvf01 tomcat]# rpm -ihv ipa-mincho-fonts-003.03-5.el7.noarch.rpm
+警告: ipa-mincho-fonts-003.03-5.el7.noarch.rpm: ヘッダー V3 RSA/SHA256 Signature、鍵 ID f4a80eb5: NOKEY
+Verifying...                          ################################# [100%]
+準備しています...              ################################# [100%]
+更新中 / インストール中...
+   1:ipa-mincho-fonts-003.03-5.el7    ################################# [100%]
+[root@spsvf01 tomcat]# rpm -ihv ipa-pgothic-fonts-003.03-5.el7.noarch.rpm
+警告: ipa-pgothic-fonts-003.03-5.el7.noarch.rpm: ヘッダー V3 RSA/SHA256 Signature、鍵 ID f4a80eb5: NOKEY
+Verifying...                          ################################# [100%]
+準備しています...              ################################# [100%]
+更新中 / インストール中...
+   1:ipa-pgothic-fonts-003.03-5.el7   ################################# [100%]
+[root@spsvf01 tomcat]# rpm -ihv ipa-pmincho-fonts-003.03-5.el7.noarch.rpm
+警告: ipa-pmincho-fonts-003.03-5.el7.noarch.rpm: ヘッダー V3 RSA/SHA256 Signature、鍵 ID f4a80eb5: NOKEY
+Verifying...                          ################################# [100%]
+準備しています...              ################################# [100%]
+更新中 / インストール中...
+   1:ipa-pmincho-fonts-003.03-5.el7   ################################# [100%]
+[root@spsvf01 tomcat]# rpm -qa | egrep ^ipa
+ipa-pmincho-fonts-003.03-5.el7.noarch
+ipa-gothic-fonts-003.03-5.el7.noarch
+ipa-mincho-fonts-003.03-5.el7.noarch
+ipa-pgothic-fonts-003.03-5.el7.noarch
+[root@spsvf01 tomcat]# cd /opt/
+[root@spsvf01 opt]# cd apache-tomcat-10.0.27/webapps/
+[root@spsvf01 webapps]# cp -p /home/tomcat/lool.war .
+[root@spsvf01 webapps]# cd ../bin
+[root@spsvf01 bin]# cp -p catalina.sh catalina.sh.org
+[root@spsvf01 bin]# vi catalina.sh
+
+[root@spsvf01 bin]# diff catalina.sh.org catalina.sh
+120a121,123
+> # add by spring
+> JAVA_HOME=/opt/jdk-1.8
+>
+[root@spsvf01 bin]# cp -p /home/tomcat/tomcat10 /etc/systemd/system/tomcat10.service
+[root@spsvf01 bin]# chmod a+x /etc/systemd/system/tomcat10.service
+[root@spsvf01 bin]# systemctl enable tomcat10
+Created symlink /etc/systemd/system/multi-user.target.wants/tomcat10.service → /etc/systemd/system/tomcat10.service.
+[root@spsvf01 ~]# systemctl daemon-reload
+[root@spsvf01 ~]# systemctl start tomcat10
+[root@spsvf01 ~]# systemctl status tomcat10
+● tomcat10.service - Apache Tomcat 10.0.27 for OpenOffice G/W
+   Loaded: loaded (/etc/systemd/system/tomcat10.service; enabled; vendor preset: disabled)
+   Active: active (exited) since Wed 2023-03-29 12:22:31 JST; 5s ago
+  Process: 403909 ExecStart=/opt/apache-tomcat-10.0.27/bin/startup.sh (code=exited, status=0/SUCCESS)
+ Main PID: 403909 (code=exited, status=0/SUCCESS)
+    Tasks: 42 (limit: 51029)
+   Memory: 217.1M
+   CGroup: /system.slice/tomcat10.service
+           tq403917 /opt/jdk-1.8/bin/java -Djava.util.logging.config.file=/opt/apache-tomcat-10.0.27/conf/logging.properties -Djava.util.logging.mana>
+           mq403950 /opt/openoffice4/program/soffice.bin -accept=socket,host=127.0.0.1,port=8100,tcpNoDelay=1;urp;StarOffice.ServiceManager -headless>
+
+ 3月 29 12:22:31 spsvf01.spring.local systemd[1]: Starting Apache Tomcat 10.0.27 for OpenOffice G/W...
+ 3月 29 12:22:31 spsvf01.spring.local systemd[1]: Started Apache Tomcat 10.0.27 for OpenOffice G/W.
+[root@spsvf01 ~]# ls -l /opt/apache-tomcat-10.0.27/webapps/
+合計 2456
+drwxr-x---  3 tomcat ap-users     223  3月 29 12:00 ROOT
+drwxr-x--- 15 tomcat ap-users    4096  3月 29 12:00 docs
+drwxr-x---  7 tomcat ap-users      99  3月 29 12:00 examples
+drwxr-x---  6 tomcat ap-users      79  3月 29 12:00 host-manager
+drwxr-x---  4 tomcat ap-users      80  3月 29 12:22 lool
+-rw-r--r--  1 tomcat ap-users 2509538 12月 14 07:31 lool.war
+drwxr-x---  6 tomcat ap-users     114  3月 29 12:00 manager
+[root@spsvf01 ~]#

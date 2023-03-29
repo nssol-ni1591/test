@@ -8,9 +8,17 @@ jodconverterリモートを使用してOpenOfficeのpdf変換を行うための�
 
 - jodconverter-sample-client
     - テスト用クライアントアプリ
-    - Test2 (ファイル)
-    - Test3 (ストリーム)
-    - 第1引数：上記サーブレットが配置されたURL、第2引数：変換元ファイルへのパス
+      第1引数：上記サーブレットが配置されたURL、第2引数：変換元ファイルへのパス
+
+	    - Test2 (ファイル版)
+  	  - Test3 (ストリーム版)
+
+		※Test1はSPRINGアプリがベースのためコンパイルに失敗する。このため、project-topに配置する
+
+- introduction_logs
+		- tomcat10.service
+		- staging-SVF.txt
+		- production-SVF.txt
 
 # Compile / Run method
 gradleプロジェクトにファイルを展開したのちにbuildする
@@ -27,8 +35,13 @@ gradleプロジェクトにファイルを展開したのちにbuildする
 ### client
 実行例（Test3の場合）
 
-- $ java -jar jodconverter-sample-client/build/libs/jodconverter-sample-client-all.jar [URL] 変換ファイル
+- $ cd jodconverter-sample-client
+- $ java -jar ./build/libs/jodconverter-sample-client-all.jar [URL] 変換ファイル
 
+本番			http://172.30.83.9:8080/
+ミニ本番	http://172.30.83.79:8080/
+IT				http://172.30.83.80:8080/
+TetraLink	http://172.16.4.84:6384/
 
 # Required libraries
 ### webapp

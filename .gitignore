@@ -1,6 +1,6 @@
-/.classpath
+/**/.classpath
 /.gitattributes
-/.project
+/**/.project
 /.gradle/
 /.settings/
 /js/A
